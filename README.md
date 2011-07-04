@@ -2,6 +2,14 @@
 
 **node-gettext** is a Node.JS module to use .MO files.
 
+## Installation
+
+    npm install node-gettext
+
+## Quirks
+
+**node-gettext** currently messes a bit with Buffer an Number prototypes (adds some non-enumerable helpers)
+
 ## Usage
 
 ### Create a new Gettext object
