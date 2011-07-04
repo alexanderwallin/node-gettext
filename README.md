@@ -35,19 +35,19 @@ The first language added will become the default language for Gettext functions.
 
     gt.textdomain("et");
 
-### Load a string from default langauge file
+### Load a string from default language file
 
 *gettext(msgid)*
 
     var greeting = gt.gettext("Hello!");
     
-### Load a string from a specific langauge file
+### Load a string from a specific language file
 
 *dgettext(domain, msgid)*
 
     var greeting = gt.dgettext("et", "Hello!");
     
-### Load a plural string from default langauge file
+### Load a plural string from default language file
 
 *ngettext(msgid, msgid_plural, count)*
 
