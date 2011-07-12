@@ -82,3 +82,7 @@ The first language added will become the default language for Gettext functions.
 *dnpgettext(domain, msgctxt, msgid, msgid_plural, count)*
 
     gt.dnpgettext("et", "menu items", "%d Recent File", "%d Recent Files", 3);
+
+## License
+
+MIT
