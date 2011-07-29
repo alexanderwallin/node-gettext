@@ -219,14 +219,13 @@ function Gettext(){
 
 Gettext.prototype.addTextdomain = function(domain, data){
     this.domains[domain] = new GettextDomain(data);
-    if(!this.current_textdomain){
-        this.current_textdomain = this.domains[domain];
-    }
 }
 
 Gettext.prototype.textdomain = function(domain){
     if(this.domains[domain]){
         this.current_textdomain = this.domains[domain];
+    }else{
+        this.current_textdomain = false;
     }
 }
 

@@ -27,8 +27,6 @@ Language data needs to be file contents in the Buffer format
     var file_contents = fs.readFileSync("et.mo");
     gt.addTextdomain("et", file_contents);
 
-The first language added will become the default language for Gettext functions.
-
 ### Change default language - textdomain(domain)
 
 *textdomain(domain)*
