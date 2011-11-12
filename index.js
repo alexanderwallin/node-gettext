@@ -20,7 +20,13 @@ function GettextDomain(textdomain){
     
     this.charset = "iso-8859-1";
     this.headers = false;
-    
+
+    this.iconv = {
+        convert: function(data){
+            return data;
+        }
+    }
+
     if(this.total){
         this.load_tables();
     }
