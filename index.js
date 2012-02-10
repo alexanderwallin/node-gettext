@@ -3,16 +3,16 @@ var Iconv = require("iconv").Iconv,
     vm = require('vm'),
     util = require("util");
 
-require("./buffer-helpers");
+var buftools = require("./buffer-helpers");
 
 function GettextDomain(textdomain){
     this.textdomain = textdomain;
     this.checkMagick();
     
-    this.revision = this.textdomain.readint(this.byteorder);
-    this.total = this.textdomain.readint(this.byteorder);
-    this.originals = this.textdomain.readint(this.byteorder);
-    this.translations = this.textdomain.readint(this.byteorder);
+    this.revision = buftools.bufferReadint(this.textdomain, this.byteorder);
+    this.total = buftools.bufferReadint(this.textdomain, this.byteorder);
+    this.originals = buftools.bufferReadint(this.textdomain, this.byteorder);
+    this.translations = buftools.bufferReadint(this.textdomain, this.byteorder);
     
     this.table_originals = [];
     this.table_translations = [];
@@ -36,10 +36,10 @@ GettextDomain.bigMagic = [0x95, 0x04, 0x12, 0xde];
 GettextDomain.littleMagic = [0xde, 0x12, 0x04, 0x95];
 
 GettextDomain.prototype.checkMagick = function(){
-    var magic = this.textdomain.read(4);
-    if(magic.equals(GettextDomain.bigMagic)){
+    var magic = buftools.bufferRead(this.textdomain, 4);
+    if(buftools.bufferEquals(magic, GettextDomain.bigMagic)){
         this.byteorder = ">i";
-    }else if(magic.equals(GettextDomain.littleMagic)){
+    }else if(buftools.bufferEquals(magic, GettextDomain.littleMagic)){
         this.byteorder = "<i";
     }else{
         throw new Error("Invalid magic!");
@@ -50,27 +50,28 @@ GettextDomain.prototype.load_tables = function(){
     var original, translation;
     
     // get originals
-    this.textdomain.seek(this.originals);
+    buftools.bufferSeek(this.textdomain, this.originals);
     for(var i=0; i<this.total; i++){
-        this.table_originals.push([this.textdomain.readint(this.byteorder), this.textdomain.readint(this.byteorder)]);
+        this.table_originals.push([buftools.bufferReadint(this.textdomain, this.byteorder), buftools.bufferReadint(this.textdomain, this.byteorder)]);
     }
     
     // get translations
-    this.textdomain.seek(this.translations);
+    buftools.bufferSeek(this.textdomain, this.translations);
     for(var i=0; i<this.total; i++){
-        this.table_translations.push([this.textdomain.readint(this.byteorder), this.textdomain.readint(this.byteorder)]);
+        this.table_translations.push([buftools.bufferReadint(this.textdomain, this.byteorder), buftools.bufferReadint(this.textdomain, this.byteorder)]);
     }
     
     // cache strings
     for(var i=0; i<this.total; i++){
-        this.textdomain.seek(this.table_originals[i][1]);
-        original = this.textdomain.read(this.table_originals[i][0]);
+        buftools.bufferSeek(this.textdomain, this.table_originals[i][1]);
+        original = buftools.bufferRead(this.textdomain, this.table_originals[i][0]);
         
-        this.textdomain.seek(this.table_translations[i][1]);
-        translation = this.textdomain.read(this.table_translations[i][0]);
+        buftools.bufferSeek(this.textdomain, this.table_translations[i][1]);
+        translation = buftools.bufferRead(this.textdomain, this.table_translations[i][0]);
         
         this.handle_strings(original, translation);
     }
+
 }
 
 GettextDomain.prototype.handle_strings = function(original, translation){

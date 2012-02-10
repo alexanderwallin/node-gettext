@@ -73,7 +73,7 @@ function bufferFindAll(data, offset){
 
 function bufferSplit(data){
     var data = Buffer.isBuffer(data) && data || new Buffer(data);
-    var i=0, pos = this.findAll(data), len = pos.length, parts = [],
+    var i=0, pos = module.exports.bufferFindAll(this, data), len = pos.length, parts = [],
         startPos, endPos;
     if(!this.length || !data.length){
         return parts;
@@ -90,6 +90,7 @@ function bufferSplit(data){
 }
 
 function bufferEquals(data){
+    
     var data = Buffer.isBuffer(data) && data || new Buffer(data);
     
     var i;
@@ -117,69 +118,26 @@ function bufferUnpack(fmt){
 }
 
 function bufferReadint(fmt){
-    var data = this.read(4);
-    return data.unpack(fmt);
+    var data = module.exports.bufferRead(this, 4);
+    return module.exports.bufferUnpack(data, fmt);
 }
 
-if(!("reset" in Buffer.prototype)){
-    Object.defineProperty(Buffer.prototype, "reset",{
-        value: bufferReset,
-        enumerable: false
-    });
+
+function bufferBinder(func){
+    return function(){
+        var args = Array.prototype.slice.call(arguments),
+            buffer = args.shift();
+        return func.apply(buffer, args);
+    }
 }
 
-if(!("seek" in Buffer.prototype)){
-    Object.defineProperty(Buffer.prototype, "seek",{
-        value: bufferSeek,
-        enumerable: false
-    });
-}
-
-if(!("read" in Buffer.prototype)){
-    Object.defineProperty(Buffer.prototype, "read",{
-        value: bufferRead,
-        enumerable: false
-    });
-}
-
-if(!("readint" in Buffer.prototype)){
-    Object.defineProperty(Buffer.prototype, "readint",{
-        value: bufferReadint,
-        enumerable: false
-    });
-}
-
-if(!("findAll" in Buffer.prototype)){
-    Object.defineProperty(Buffer.prototype, "findAll",{
-        value: bufferFindAll,
-        enumerable: false
-    });
-}
-
-if(!("split" in Buffer.prototype)){
-    Object.defineProperty(Buffer.prototype, "split",{
-        value: bufferSplit,
-        enumerable: false
-    });
-}
-
-if(!("equals" in Buffer.prototype)){
-    Object.defineProperty(Buffer.prototype, "equals",{
-        value: bufferEquals,
-        enumerable: false
-    });
-}
-
-if(!("unpack" in Buffer.prototype)){
-    Object.defineProperty(Buffer.prototype, "unpack",{
-        value: bufferUnpack,
-        enumerable: false
-    });
-}
-
-if(!("pack" in Number.prototype)){
-    Object.defineProperty(Number.prototype, "pack",{
-        value: numberPack,
-        enumerable: false
-    });
-}
+// Expose to the world
+module.exports.bufferReset = bufferBinder(bufferReset);
+module.exports.bufferSeek = bufferBinder(bufferSeek);
+module.exports.bufferRead = bufferBinder(bufferRead);
+module.exports.bufferReadint = bufferBinder(bufferReadint);
+module.exports.bufferFindAll = bufferBinder(bufferFindAll);
+module.exports.bufferSplit = bufferBinder(bufferSplit);
+module.exports.bufferEquals = bufferBinder(bufferEquals);
+module.exports.bufferUnpack = bufferBinder(bufferUnpack);
+module.exports.numberPack = bufferBinder(numberPack);
