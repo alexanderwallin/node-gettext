@@ -2,6 +2,8 @@
 
 **node-gettext** is a Node.JS module to use .MO files.
 
+## Support node-gettext development
+
 ## Installation
 
     npm install node-gettext
