@@ -1,7 +1,7 @@
 {
     "name": "node-gettext",
     "description": "Gettext client for Node.js to use .mo files for I18N",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "author" : "Andris Reinman",
     "maintainers":[
         {
@@ -14,6 +14,9 @@
         "type" : "git",
         "url" : "http://github.com/andris9/node-gettext.git"
     },
+    "scripts":{
+        "test": "nodeunit test/"
+    },
     "main" : "./index",
     "licenses" : [
         {
@@ -24,6 +27,11 @@
     "dependencies": {
         "iconv":"*"
     },
-    "engine": [ "node >=0.3.0" ],
+    "devDependencies": {
+        "nodeunit": "*"
+    },
+    "engine": {
+        "node": ">=0.6"
+    },
     "keywords": ["i18n", "l10n", "gettext", "mo"]
 }

@@ -2,6 +2,12 @@
 
 **node-gettext** is a Node.JS module to use .MO files.
 
+[![Build Status](https://secure.travis-ci.org/andris9/node-gettext.png)](http://travis-ci.org/andris9/node-gettext)
+
+## Support node-gettext development
+
+[![Donate to author](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DB26KWR2BQX5W)
+
 ## Installation
 
     npm install node-gettext
@@ -76,6 +82,28 @@ Language data needs to be file contents in the Buffer format
 *dnpgettext(domain, msgctxt, msgid, msgid_plural, count)*
 
     gt.dnpgettext("et", "menu items", "%d Recent File", "%d Recent Files", 3);
+
+## String helpers
+
+In order to make things really easy, it is possible to attach the gettext functions directly to string
+prototypes with `gettext.registerStringHelpers()`
+
+Example:
+
+    // setup gettext
+    var gettext = new Gettext();
+    gettext.registerStringHelpers();
+    gettext.addTextdomain("et", fs.readFileSync("et.mo"));
+
+    // translate any string
+    var translated = "translate this string".gettext();
+    // or
+    var plural = "translate %s string".ngettext("translate %s strings", 10);
+
+    // you can even change the default textdomain
+    "".textdomain("en");
+
+The parameters for the gettext functions are the same as with regular gettext objects, except that the `msgid` parameter is not needed.
 
 ## License
 
