@@ -2,6 +2,13 @@
 
 **node-gettext** is a Node.JS module to use .MO files.
 
+## Features
+
+  * Load binary *MO* files
+  * Supports contexts and plurals
+  * Add your own translations to the list
+  * Compile current translation table into a *MO* file!
+
 [![Build Status](https://secure.travis-ci.org/andris9/node-gettext.png)](http://travis-ci.org/andris9/node-gettext)
 
 ## Support node-gettext development
@@ -104,6 +111,20 @@ Example:
     "".textdomain("en");
 
 The parameters for the gettext functions are the same as with regular gettext objects, except that the `msgid` parameter is not needed.
+
+### Add a translation
+
+*setTranslation(domain, context, msgid, translation)*
+
+    gt.setTranslation("et", "", "Hello", "Tere");
+
+### Compile
+
+Compile current translation table to a MO file
+
+*compile([domain])*
+
+    fs.writeFile("out.mo", gt.compile("et")); 
 
 ## License
 

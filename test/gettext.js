@@ -261,3 +261,29 @@ exports["Helpers"] = {
         test.done();
     }
 }
+
+exports["Other"] = {
+    setUp: function (callback) {
+        fs.readFile(__dirname+"/utf8.mo", (function(err, body){
+            if(err){
+                throw err;
+            }
+            this.g = new Gettext();
+            this.g.addTextdomain("et", body);
+            callback();
+        }).bind(this));
+    },
+    
+    addTranslation: function(test){
+        this.g.setTranslation("et", "", "x1", "z1");
+        test.equal(this.g.gettext("x1"), "z1");
+        test.done();
+    },
+    
+    compile: function(test){
+        var g2 = new Gettext();
+        g2.addTextdomain("et", this.g.compile());
+        test.equal(this.g.gettext("o1"), g2.gettext("o1"));
+        test.done();
+    }
+}
