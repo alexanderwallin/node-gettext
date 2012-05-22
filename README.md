@@ -7,7 +7,7 @@
   * Load binary *MO* files
   * Supports contexts and plurals
   * Add your own translations to the list
-  * Compile current translation table into a *MO* file!
+  * Compile current translation table into a *MO* or a *PO* file!
 
 [![Build Status](https://secure.travis-ci.org/andris9/node-gettext.png)](http://travis-ci.org/andris9/node-gettext)
 
@@ -31,7 +31,7 @@
 
 Language data needs to be file contents in the Buffer format
 
-*addTextdomain(domain, file_contents)*
+*addTextdomain(domain[, file_contents])*
 
     var file_contents = fs.readFileSync("et.mo");
     gt.addTextdomain("et", file_contents);
@@ -118,13 +118,25 @@ The parameters for the gettext functions are the same as with regular gettext ob
 
     gt.setTranslation("et", "", "Hello", "Tere");
 
+### Remove a translation
+
+*deleteTranslation(domain, context, msgid, translation)*
+
+    gt.setTranslation("et", "", "Hello", "Tere");
+
 ### Compile
 
 Compile current translation table to a MO file
 
-*compile([domain])*
+*compileMO([domain])*
 
-    fs.writeFile("out.mo", gt.compile("et")); 
+    fs.writeFile("out.mo", gt.compileMO("et")); 
+
+Compile current translation table to a PO file
+
+*compilePO([domain])*
+
+    fs.writeFile("out.po", gt.compilePO("et"));
 
 ## License
 

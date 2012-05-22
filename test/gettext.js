@@ -280,9 +280,23 @@ exports["Other"] = {
         test.done();
     },
     
+    deleteTranslation: function(test){
+        test.equal(this.g.gettext("o1"), "t1");
+        this.g.deleteTranslation("et", "", "o1");
+        test.equal(this.g.gettext("o1"), "o1");
+        test.done();
+    },
+    
+    emptyFile: function(test){
+        this.g.addTextdomain("fi");
+        this.g.setTranslation("fi", "", "door", "ovi");
+        test.equal(this.g.dgettext("fi", "door"), "ovi");
+        test.done();
+    },
+    
     compile: function(test){
         var g2 = new Gettext();
-        g2.addTextdomain("et", this.g.compile());
+        g2.addTextdomain("et", this.g.compileMO());
         test.equal(this.g.gettext("o1"), g2.gettext("o1"));
         test.done();
     }
