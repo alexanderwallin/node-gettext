@@ -36,11 +36,15 @@ Language data needs to be file contents in the Buffer format
     var file_contents = fs.readFileSync("et.mo");
     gt.addTextdomain("et", file_contents);
 
-### Change default language - textdomain(domain)
+### Check or change default language
 
 *textdomain(domain)*
 
     gt.textdomain("et");
+
+The function also returns the current texdomain value
+
+    var curlang = gt.textdomain();
 
 ### Load a string from default language file
 

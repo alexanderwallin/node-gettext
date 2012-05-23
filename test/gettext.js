@@ -1,5 +1,6 @@
 var testCase = require('nodeunit').testCase,
     Gettext = require("../lib/gettext"),
+    POParser = require("../lib/poparser"),
     fs = require("fs");
     
 exports["UTF-8"] = {
@@ -298,6 +299,14 @@ exports["Other"] = {
         var g2 = new Gettext();
         g2.addTextdomain("et", this.g.compileMO());
         test.equal(this.g.gettext("o1"), g2.gettext("o1"));
+        test.done();
+    },
+    
+    "auto plurals": function(test){
+        this.g.addTextdomain("ga");
+        test.equal(this.g._domains["ga"]._pluralCount, 5);
+        this.g.addTextdomain("ga_zz");
+        test.equal(this.g._domains["ga_zz"]._pluralCount, 5);
         test.done();
     }
 }
