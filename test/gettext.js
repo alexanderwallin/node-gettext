@@ -181,6 +181,95 @@ exports["LATIN-13"] = {
     }
 };
 
+exports["LATIN-13 PO"] = {
+        setUp: function (callback) {
+            fs.readFile(__dirname+"/latin13.po", (function(err, body){
+                if(err){
+                    throw err;
+                }
+                this.g = new Gettext();
+                this.g.addTextdomain("et", body);
+                callback();
+            }).bind(this));
+        },
+        "Simple string, default domain": function(test){
+            test.equal(this.g.gettext("o1"), "t1");
+            test.done();
+        },
+        "Simple string, nonexisting domain": function(test){
+            this.g.textdomain("en");
+            test.equal(this.g.gettext("o1"), "o1");
+            test.done();
+        },
+        "Simple string, existing domain": function(test){
+            this.g.textdomain("et");
+            test.equal(this.g.gettext("o1"), "t1");
+            test.done();
+        },
+        "Simple string with special chars": function(test){
+            test.equal(this.g.gettext("o3-õäöü"), "t3-žš");
+            test.done();
+        },
+        "dgettext": function(test){
+            test.equal(this.g.dgettext("et", "o1"), "t1");
+            test.equal(this.g.dgettext("en", "o1"), "o1");
+            test.done();
+        },
+        "ngettext": function(test){
+            test.equal(this.g.ngettext("o2-1", "a", 0), "t2-2");
+            test.equal(this.g.ngettext("o2-1", "b", 1), "t2-1");
+            test.equal(this.g.ngettext("o2-1", "c", 2), "t2-2");
+            test.equal(this.g.ngettext("o2-1", "d", 3), "t2-2");
+            test.done();
+        },
+        "dngettext": function(test){
+            test.equal(this.g.dngettext("et", "o2-1", "a", 0), "t2-2");
+            test.equal(this.g.dngettext("et", "o2-1", "b", 1), "t2-1");
+            test.equal(this.g.dngettext("et", "o2-1", "c", 2), "t2-2");
+            test.equal(this.g.dngettext("et", "o2-1", "c", 3), "t2-2");
+            
+            test.equal(this.g.dngettext("en", "o2-1", "a", 0), "a");
+            test.equal(this.g.dngettext("en", "o2-1", "a", 1), "o2-1");
+            test.equal(this.g.dngettext("en", "o2-1", "a", 2), "a");
+            test.equal(this.g.dngettext("en", "o2-1", "a", 3), "a");
+            
+            test.done();
+        },
+        "pgettext": function(test){
+            test.equal(this.g.pgettext("c1", "co1"), "ct1");
+            
+            test.equal(this.g.pgettext("c2", "co1"), "co1");
+            test.done();
+        },
+        "dpgettext": function(test){
+            test.equal(this.g.dpgettext("et", "c1", "co1"), "ct1");
+            test.equal(this.g.dpgettext("et", "c2", "co1"), "co1");
+            
+            test.equal(this.g.dpgettext("en", "c1", "co1"), "co1");
+            test.equal(this.g.dpgettext("en", "c2", "co1"), "co1");
+            test.done();
+        },
+        "npgettext": function(test){
+            test.equal(this.g.npgettext("c2", "co2-1", "a", 0), "ct2-2");
+            test.equal(this.g.npgettext("c2", "co2-1", "a", 1), "ct2-1");
+            test.equal(this.g.npgettext("c2", "co2-1", "a", 2), "ct2-2");
+            test.equal(this.g.npgettext("c2", "co2-1", "a", 3), "ct2-2");
+            test.done();
+        },
+        "dnpgettext": function(test){
+            test.equal(this.g.dnpgettext("et", "c2", "co2-1", "a", 0), "ct2-2");
+            test.equal(this.g.dnpgettext("et", "c2", "co2-1", "a", 1), "ct2-1");
+            test.equal(this.g.dnpgettext("et", "c2", "co2-1", "a", 2), "ct2-2");
+            test.equal(this.g.dnpgettext("et", "c2", "co2-1", "a", 3), "ct2-2");
+            
+            test.equal(this.g.dnpgettext("en", "c2", "co2-1", "a", 0), "a");
+            test.equal(this.g.dnpgettext("en", "c2", "co2-1", "a", 1), "co2-1");
+            test.equal(this.g.dnpgettext("en", "c2", "co2-1", "a", 2), "a");
+            test.equal(this.g.dnpgettext("en", "c2", "co2-1", "a", 3), "a");
+            test.done();
+        }
+    };
+
 exports["Helpers"] = {
     setUp: function (callback) {
         fs.readFile(__dirname+"/utf8.mo", (function(err, body){
@@ -295,9 +384,16 @@ exports["Other"] = {
         test.done();
     },
     
-    compile: function(test){
+    "compile MO": function(test){
         var g2 = new Gettext();
         g2.addTextdomain("et", this.g.compileMO());
+        test.equal(this.g.gettext("o1"), g2.gettext("o1"));
+        test.done();
+    },
+    
+    "compile PO": function(test){
+        var g2 = new Gettext();
+        g2.addTextdomain("et", this.g.compilePO());
         test.equal(this.g.gettext("o1"), g2.gettext("o1"));
         test.done();
     },

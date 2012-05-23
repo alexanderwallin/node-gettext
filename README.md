@@ -1,13 +1,13 @@
 # node-gettext
 
-**node-gettext** is a Node.JS module to use .MO files.
+**node-gettext** is a Node.JS module to use .MO and .PO files.
 
 ## Features
 
-  * Load binary *MO* files
+  * Load binary *MO* or source *PO* files
   * Supports contexts and plurals
   * Add your own translations to the list
-  * Compile current translation table into a *MO* or a *PO* file!
+  * Recompile current translation table into a *MO* or a *PO* file!
 
 [![Build Status](https://secure.travis-ci.org/andris9/node-gettext.png)](http://travis-ci.org/andris9/node-gettext)
 
@@ -29,11 +29,16 @@
     
 ### Add a language - addTextdomain(domain, file)
 
-Language data needs to be file contents in the Buffer format
+Language data needs to be file contents in the Buffer format (can be either a .MO or .PO file)
 
 *addTextdomain(domain[, file_contents])*
 
     var file_contents = fs.readFileSync("et.mo");
+    gt.addTextdomain("et", file_contents);
+
+or load a .PO file
+
+    var file_contents = fs.readFileSync("et.po");
     gt.addTextdomain("et", file_contents);
 
 ### Check or change default language
