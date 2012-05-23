@@ -308,5 +308,16 @@ exports["Other"] = {
         this.g.addTextdomain("ga_zz");
         test.equal(this.g._domains["ga_zz"]._pluralCount, 5);
         test.done();
+    },
+    
+    "list context": function(test){
+        test.deepEqual(this.g.listContextNames(), ['', 'c1', 'c2']);
+        test.done();
+    },
+    
+    "list keys": function(test){
+        test.deepEqual(this.g.listKeys(), ['o1', 'o2-1', 'o3-õäöü' ]);
+        test.deepEqual(this.g.listKeys('', 'c1'), ['co1' ]);
+        test.done();
     }
 }

@@ -116,6 +116,8 @@ Example:
 
 The parameters for the gettext functions are the same as with regular gettext objects, except that the `msgid` parameter is not needed.
 
+## Manage translations
+
 ### Add a translation
 
 *setTranslation(domain, context, msgid, translation)*
@@ -128,13 +130,29 @@ The parameters for the gettext functions are the same as with regular gettext ob
 
     gt.setTranslation("et", "", "Hello", "Tere");
 
-### Compile
+### List possible context names
+
+*listContextNames([domain])*
+
+    var contextStrArr = gt.listContextNames("et");
+
+### List possible translation keys
+
+*listKeys([domain], [context])*
+
+    var originalsStrArr = gt.listKeys("et", "");
+
+## Compiling
+
+## Compile MO
 
 Compile current translation table to a MO file
 
 *compileMO([domain])*
 
     fs.writeFile("out.mo", gt.compileMO("et")); 
+
+## Compile PO
 
 Compile current translation table to a PO file
 
