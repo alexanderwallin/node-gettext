@@ -27,19 +27,31 @@
 
     var gt = new Gettext();
     
-### Add a language - addTextdomain(domain, file)
+### Add a language
 
-Language data needs to be file contents in the Buffer format (can be either a .MO or .PO file)
+*addTextdomain(domain, file)*
 
-*addTextdomain(domain[, file_contents])*
+Language data needs to be in the Buffer format - it can be either contents of a *MO* or *PO* file.
 
-    var file_contents = fs.readFileSync("et.mo");
-    gt.addTextdomain("et", file_contents);
+*addTextdomain(domain[, fileContents])*
 
-or load a .PO file
+Load from a *MO* file
 
-    var file_contents = fs.readFileSync("et.po");
-    gt.addTextdomain("et", file_contents);
+    var fileContents = fs.readFileSync("et.mo");
+    gt.addTextdomain("et", fileContents);
+
+or load from a *PO* file
+
+    var fileContents = fs.readFileSync("et.po");
+    gt.addTextdomain("et", fileContents);
+
+If you do not include the file contents, then a blank language template object
+is created which can be edited with *setTranslation*, *deleteTranslation* methods etc.
+
+Plural rules are automatically detected from the language code
+
+    gt.addTextdomain("et");
+    gt.setTranslation("et", false, "hello!", "tere!");
 
 ### Check or change default language
 
@@ -50,6 +62,8 @@ or load a .PO file
 The function also returns the current texdomain value
 
     var curlang = gt.textdomain();
+
+## Translation methods
 
 ### Load a string from default language file
 
@@ -119,7 +133,7 @@ Example:
     // you can even change the default textdomain
     "".textdomain("en");
 
-The parameters for the gettext functions are the same as with regular gettext objects, except that the `msgid` parameter is not needed.
+The parameters for the gettext functions are the same as with regular gettext methods, except that the `msgid` parameter is not needed.
 
 ## Manage translations
 
@@ -129,19 +143,23 @@ The parameters for the gettext functions are the same as with regular gettext ob
 
     gt.setTranslation("et", "", "Hello", "Tere");
 
+Use an array for plurals
+
+    gt.setTranslation("et", "", "%s comments", ["%s kommentaar", "%s kommentaari"]);
+
 ### Remove a translation
 
-*deleteTranslation(domain, context, msgid, translation)*
+*deleteTranslation(domain, context, msgid)*
 
-    gt.setTranslation("et", "", "Hello", "Tere");
+    gt.deleteTranslation("et", "", "Hello");
 
-### List possible context names
+### List available contexts
 
 *listContextNames([domain])*
 
     var contextStrArr = gt.listContextNames("et");
 
-### List possible translation keys
+### List translation keys for a context
 
 *listKeys([domain], [context])*
 
@@ -149,17 +167,17 @@ The parameters for the gettext functions are the same as with regular gettext ob
 
 ## Compiling
 
-## Compile MO
+### Compile to MO
 
-Compile current translation table to a MO file
+Compile current translation table to a *MO* file
 
 *compileMO([domain])*
 
     fs.writeFile("out.mo", gt.compileMO("et")); 
 
-## Compile PO
+### Compile to PO
 
-Compile current translation table to a PO file
+Compile current translation table to a *PO* file
 
 *compilePO([domain])*
 
