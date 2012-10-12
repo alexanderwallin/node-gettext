@@ -429,5 +429,15 @@ exports["BUG-POParser#_detectCharset-PO"] = {
             });
             test.done();
         });
+    },
+    "detect utf-8 charset": function(test){
+        fs.readFile(__dirname+"/utf8_bug_poparser.po", function(err, body){
+            if(err){
+                throw err;
+            }
+            test.p = new POParser(body);
+            test.equal(test.p._charset, 'utf-8');
+            test.done();
+        });
     }
 }
