@@ -1,7 +1,7 @@
 {
     "name": "node-gettext",
     "description": "Gettext client for Node.js to use .mo files for I18N",
-    "version": "0.2.13",
+    "version": "0.2.14",
     "author" : "Andris Reinman",
     "maintainers":[
         {
