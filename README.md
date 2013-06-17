@@ -121,6 +121,14 @@ The function also returns the current texdomain value
 
 Returns an object in the form of `{comment: "", code: "", note: ""}`
 
+### Sets a comments for a translation
+
+*setComment(domain, msgctxt, msgid, comment)*
+
+    gt.getComment("et", "menu items", "%d Recent File", "This is a comment");
+
+`comment` can either be a string or an object with the following properties: `{comment: "", code: "", note: ""}`.
+
 ## String helpers
 
 In order to make things really easy, it is possible to attach the gettext functions directly to string

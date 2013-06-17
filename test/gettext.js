@@ -461,5 +461,55 @@ exports["COMMENTS"] = {
                 code: '/absolute/path:13\n/absolute/path:14' 
             });
         test.done();
+    },
+    "Set comment": function(test){
+        this.g.setComment("et", "", "test", "tere");
+        test.deepEqual(this.g.getComment("et", "", "test"),
+            {
+                comment: 'tere',
+                note: 'Editors note line 1\nEditors note line 2',
+                code: '/absolute/path:13\n/absolute/path:14' 
+            });
+        test.done();
+    },
+    "Set comment object": function(test){
+        this.g.setComment("et", "", "test", {comment: "tere"});
+        test.deepEqual(this.g.getComment("et", "", "test"),
+            {
+                comment: 'tere',
+                note: 'Editors note line 1\nEditors note line 2',
+                code: '/absolute/path:13\n/absolute/path:14' 
+            });
+        test.done();
+    },
+    "Set comment object for notes": function(test){
+        this.g.setComment("et", "", "test", {note: "tere"});
+        test.deepEqual(this.g.getComment("et", "", "test"),
+            {
+                comment: 'Normal comment line 1\nNormal comment line 2',
+                note: 'tere',
+                code: '/absolute/path:13\n/absolute/path:14' 
+            });
+        test.done();
+    },
+    "Set comment object for code": function(test){
+        this.g.setComment("et", "", "test", {code: "/abs:1"});
+        test.deepEqual(this.g.getComment("et", "", "test"),
+            {
+                comment: 'Normal comment line 1\nNormal comment line 2',
+                note: 'Editors note line 1\nEditors note line 2',
+                code: '/abs:1' 
+            });
+        test.done();
+    },
+    "Compile PO with comments": function(test){
+        this.g.addTextdomain("en", this.g.compilePO());
+        test.deepEqual(this.g.getComment("en", "", "test"),
+            {
+                comment: 'Normal comment line 1\nNormal comment line 2',
+                note: 'Editors note line 1\nEditors note line 2',
+                code: '/absolute/path:13\n/absolute/path:14' 
+            });
+        test.done();
     }
 }
