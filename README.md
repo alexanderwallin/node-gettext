@@ -113,6 +113,14 @@ The function also returns the current texdomain value
 
     gt.dnpgettext("et", "menu items", "%d Recent File", "%d Recent Files", 3);
 
+### Get comments for a translation (if loaded from PO)
+
+*getComment(domain, msgctxt, msgid)*
+
+    gt.getComment("et", "menu items", "%d Recent File");
+
+Returns an object in the form of `{comment: "", code: "", note: ""}`
+
 ## String helpers
 
 In order to make things really easy, it is possible to attach the gettext functions directly to string

@@ -441,3 +441,25 @@ exports["BUG-POParser#_detectCharset-PO"] = {
         });
     }
 }
+
+exports["COMMENTS"] = {
+    setUp: function (callback) {
+        fs.readFile(__dirname+"/comments.po", (function(err, body){
+            if(err){
+                throw err;
+            }
+            this.g = new Gettext();
+            this.g.addTextdomain("et", body);
+            callback();
+        }).bind(this));
+    },
+    "Normal comments": function(test){
+        test.deepEqual(this.g.getComment("et", "", "test"),
+            {
+                comment: 'Normal comment line 1\nNormal comment line 2',
+                note: 'Editors note line 1\nEditors note line 2',
+                code: '/absolute/path:13\n/absolute/path:14' 
+            });
+        test.done();
+    }
+}

@@ -1,0 +1,18 @@
+# node-gettext test file.
+# Copyright (C) 2012 Andris Reinman
+# This file is distributed under the same license as the node-gettext package.
+# ANDRIS REINMAN <andris@node.ee>, 2012.
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+# Normal comment line 1
+# Normal comment line 2
+#. Editors note line 1
+#. Editors note line 2
+#: /absolute/path:13
+#: /absolute/path:14
+msgid "test"
+msgstr "test"
