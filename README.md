@@ -2,6 +2,8 @@
 
 **node-gettext** is a Node.JS module to use .MO and .PO files.
 
+**NB!** If you just want to parse or compile mo/po files, check out [gettext-parser](https://github.com/andris9/gettext-parser).
+
 ## Features
 
   * Load binary *MO* or source *PO* files
