@@ -14,5 +14,7 @@ msgstr ""
 #. Editors note line 2
 #: /absolute/path:13
 #: /absolute/path:14
+#, fuzzy
+#, c-format
 msgid "test"
 msgstr "test"

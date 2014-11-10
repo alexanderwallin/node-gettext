@@ -458,7 +458,8 @@ exports["COMMENTS"] = {
             {
                 comment: 'Normal comment line 1\nNormal comment line 2',
                 note: 'Editors note line 1\nEditors note line 2',
-                code: '/absolute/path:13\n/absolute/path:14' 
+                code: '/absolute/path:13\n/absolute/path:14',
+                flag: 'fuzzy\nc-format'
             });
         test.done();
     },
@@ -468,7 +469,8 @@ exports["COMMENTS"] = {
             {
                 comment: 'tere',
                 note: 'Editors note line 1\nEditors note line 2',
-                code: '/absolute/path:13\n/absolute/path:14' 
+                code: '/absolute/path:13\n/absolute/path:14' ,
+                flag: 'fuzzy\nc-format'
             });
         test.done();
     },
@@ -478,7 +480,8 @@ exports["COMMENTS"] = {
             {
                 comment: 'tere',
                 note: 'Editors note line 1\nEditors note line 2',
-                code: '/absolute/path:13\n/absolute/path:14' 
+                code: '/absolute/path:13\n/absolute/path:14' ,
+                flag: 'fuzzy\nc-format'
             });
         test.done();
     },
@@ -488,7 +491,8 @@ exports["COMMENTS"] = {
             {
                 comment: 'Normal comment line 1\nNormal comment line 2',
                 note: 'tere',
-                code: '/absolute/path:13\n/absolute/path:14' 
+                code: '/absolute/path:13\n/absolute/path:14',
+                flag: 'fuzzy\nc-format'
             });
         test.done();
     },
@@ -498,7 +502,19 @@ exports["COMMENTS"] = {
             {
                 comment: 'Normal comment line 1\nNormal comment line 2',
                 note: 'Editors note line 1\nEditors note line 2',
-                code: '/abs:1' 
+                code: '/abs:1',
+                flag: 'fuzzy\nc-format'
+            });
+        test.done();
+    },
+    "Set comment object for flag": function(test){
+        this.g.setComment("et", "", "test", {flag: "something"});
+        test.deepEqual(this.g.getComment("et", "", "test"),
+            {
+                comment: 'Normal comment line 1\nNormal comment line 2',
+                note: 'Editors note line 1\nEditors note line 2',
+                code: '/absolute/path:13\n/absolute/path:14',
+                flag: 'something'
             });
         test.done();
     },
@@ -508,7 +524,8 @@ exports["COMMENTS"] = {
             {
                 comment: 'Normal comment line 1\nNormal comment line 2',
                 note: 'Editors note line 1\nEditors note line 2',
-                code: '/absolute/path:13\n/absolute/path:14' 
+                code: '/absolute/path:13\n/absolute/path:14',
+                flag: 'fuzzy\nc-format'
             });
         test.done();
     }

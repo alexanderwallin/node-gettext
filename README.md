@@ -121,7 +121,7 @@ The function also returns the current texdomain value
 
     gt.getComment("et", "menu items", "%d Recent File");
 
-Returns an object in the form of `{comment: "", code: "", note: ""}`
+Returns an object in the form of `{comment: "", code: "", note: "", flag: ""}`
 
 ### Sets a comments for a translation
 
@@ -129,7 +129,7 @@ Returns an object in the form of `{comment: "", code: "", note: ""}`
 
     gt.getComment("et", "menu items", "%d Recent File", "This is a comment");
 
-`comment` can either be a string or an object with the following properties: `{comment: "", code: "", note: ""}`.
+`comment` can either be a string or an object with the following properties: `{comment: "", code: "", note: "", flag: ""}`.
 
 ## String helpers
 
