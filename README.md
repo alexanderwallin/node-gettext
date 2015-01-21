@@ -8,8 +8,6 @@
 
   * Load binary *MO* or source *PO* files
   * Supports contexts and plurals
-  * Add your own translations to the list
-  * Recompile current translation table into a *MO* or a *PO* file!
 
 [![Build Status](https://secure.travis-ci.org/andris9/node-gettext.png)](http://travis-ci.org/andris9/node-gettext)
 
@@ -28,7 +26,7 @@
     var Gettext = require("node-gettext");
 
     var gt = new Gettext();
-    
+
 ### Add a language
 
 *addTextdomain(domain, file)*
@@ -72,13 +70,13 @@ The function also returns the current texdomain value
 *gettext(msgid)*
 
     var greeting = gt.gettext("Hello!");
-    
+
 ### Load a string from a specific language file
 
 *dgettext(domain, msgid)*
 
     var greeting = gt.dgettext("et", "Hello!");
-    
+
 ### Load a plural string from default language file
 
 *ngettext(msgid, msgid_plural, count)*
@@ -90,7 +88,7 @@ The function also returns the current texdomain value
 *dngettext(domain, msgid, msgid_plural, count)*
 
     gt.dngettext("et", "%d Comment", "%d Comments", 10)
-    
+
 ### Load a string of a specific context
 
 *pgettext(msgctxt, msgid)*
@@ -102,13 +100,13 @@ The function also returns the current texdomain value
 *dpgettext(domain, msgctxt, msgid)*
 
     gt.dpgettext("et", "menu items", "File");
-    
+
 ### Load a plural string of a specific context
 
 *npgettext(msgctxt, msgid, msgid_plural, count)*
 
     gt.npgettext("menu items", "%d Recent File", "%d Recent Files", 3);
-    
+
 ### Load a plural string of a specific context from specific language file
 
 *dnpgettext(domain, msgctxt, msgid, msgid_plural, count)*
@@ -121,85 +119,13 @@ The function also returns the current texdomain value
 
     gt.getComment("et", "menu items", "%d Recent File");
 
-Returns an object in the form of `{comment: "", code: "", note: "", flag: ""}`
+Returns an object in the form of `{translator: "", extracted: "", reference: "", flag: "", previous: ""}`
 
-### Sets a comments for a translation
+## Advanced handling
 
-*setComment(domain, msgctxt, msgid, comment)*
+If you need the translation object for a domain, for example `et_EE`, you can access it from `gt.domains.et_EE`.
 
-    gt.getComment("et", "menu items", "%d Recent File", "This is a comment");
-
-`comment` can either be a string or an object with the following properties: `{comment: "", code: "", note: "", flag: ""}`.
-
-## String helpers
-
-In order to make things really easy, it is possible to attach the gettext functions directly to string
-prototypes with `gettext.registerStringHelpers()`
-
-Example:
-
-    // setup gettext
-    var gettext = new Gettext();
-    gettext.registerStringHelpers();
-    gettext.addTextdomain("et", fs.readFileSync("et.mo"));
-
-    // translate any string
-    var translated = "translate this string".gettext();
-    // or
-    var plural = "translate %s string".ngettext("translate %s strings", 10);
-
-    // you can even change the default textdomain
-    "".textdomain("en");
-
-The parameters for the gettext functions are the same as with regular gettext methods, except that the `msgid` parameter is not needed.
-
-## Manage translations
-
-### Add a translation
-
-*setTranslation(domain, context, msgid, translation)*
-
-    gt.setTranslation("et", "", "Hello", "Tere");
-
-Use an array for plurals
-
-    gt.setTranslation("et", "", "%s comments", ["%s kommentaar", "%s kommentaari"]);
-
-### Remove a translation
-
-*deleteTranslation(domain, context, msgid)*
-
-    gt.deleteTranslation("et", "", "Hello");
-
-### List available contexts
-
-*listContextNames([domain])*
-
-    var contextStrArr = gt.listContextNames("et");
-
-### List translation keys for a context
-
-*listKeys([domain], [context])*
-
-    var originalsStrArr = gt.listKeys("et", "");
-
-## Compiling
-
-### Compile to MO
-
-Compile current translation table to a *MO* file
-
-*compileMO([domain])*
-
-    fs.writeFile("out.mo", gt.compileMO("et")); 
-
-### Compile to PO
-
-Compile current translation table to a *PO* file
-
-*compilePO([domain])*
-
-    fs.writeFile("out.po", gt.compilePO("et"));
+If you want modify it and compile it to *mo* or *po*, checkout [gettext-parser](https://github.com/andris9/gettext-parser) module.
 
 ## License
 

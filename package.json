@@ -1,37 +1,42 @@
 {
-    "name": "node-gettext",
-    "description": "Gettext client for Node.js to use .mo files for I18N",
-    "version": "0.2.14",
-    "author" : "Andris Reinman",
-    "maintainers":[
-        {
-            "name":"andris",
-            "email":"andris@node.ee"
-        }
-    ],
-    "homepage": "http://github.com/andris9/node-gettext",
-    "repository" : {
-        "type" : "git",
-        "url" : "http://github.com/andris9/node-gettext.git"
-    },
-    "scripts":{
-        "test": "nodeunit test/"
-    },
-    "main" : "./index",
-    "licenses" : [
-        {
-            "type": "MIT",
-            "url": "http://github.com/andris9/node-gettext/blob/master/LICENSE"
-        }
-    ],
-    "dependencies": {
-        "iconv":">=1.2.0"
-    },
-    "devDependencies": {
-        "nodeunit": "*"
-    },
-    "engine": {
-        "node": ">=0.6"
-    },
-    "keywords": ["i18n", "l10n", "gettext", "mo"]
+  "name": "node-gettext",
+  "description": "Gettext client for Node.js to use .mo files for I18N",
+  "version": "1.0.0",
+  "author": "Andris Reinman",
+  "maintainers": [{
+    "name": "andris",
+    "email": "andris@node.ee"
+  }],
+  "homepage": "http://github.com/andris9/node-gettext",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/andris9/node-gettext.git"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "main": "./lib/gettext",
+  "licenses": [{
+    "type": "MIT",
+    "url": "http://github.com/andris9/node-gettext/blob/master/LICENSE"
+  }],
+  "dependencies": {
+    "gettext-parser": "^1.1.0"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-mocha-test": "^0.12.7",
+    "mocha": "^2.1.0"
+  },
+  "engine": {
+    "node": ">=0.6"
+  },
+  "keywords": [
+    "i18n",
+    "l10n",
+    "gettext",
+    "mo"
+  ]
 }
