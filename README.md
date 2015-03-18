@@ -45,9 +45,6 @@ or load from a *PO* file
     var fileContents = fs.readFileSync("et.po");
     gt.addTextdomain("et", fileContents);
 
-If you do not include the file contents, then a blank language template object
-is created which can be edited with *setTranslation*, *deleteTranslation* methods etc.
-
 Plural rules are automatically detected from the language code
 
     gt.addTextdomain("et");
