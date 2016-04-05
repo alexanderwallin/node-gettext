@@ -40,6 +40,16 @@ describe('Gettext', function() {
             expect(gt.domains.et_EE.charset).to.equal('iso-8859-13');
         });
 
+        it('Should add from a json file', function() {
+            var gt = new Gettext();
+            var jsonFile = JSON.parse(fs.readFileSync(__dirname + '/fixtures/latin13.json'));
+
+            gt.addTextdomain('et-EE', jsonFile);
+
+            expect(gt.domains.et_EE).to.exist;
+            expect(gt.domains.et_EE.charset).to.equal('iso-8859-13');
+        });
+
     });
 
     describe('#textdomain', function() {
