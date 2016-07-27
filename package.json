@@ -5,14 +5,14 @@
   "author": "Andris Reinman",
   "maintainers": [
     {
-      "name": "andris",
-      "email": "andris@node.ee"
+      "name": "Alexander Wallin",
+      "email": "office@alexanderwallin.com"
     }
   ],
-  "homepage": "http://github.com/andris9/node-gettext",
+  "homepage": "http://github.com/alexanderwallin/node-gettext",
   "repository": {
     "type": "git",
-    "url": "http://github.com/andris9/node-gettext.git"
+    "url": "http://github.com/alexanderwallin/node-gettext.git"
   },
   "scripts": {
     "test": "grunt"
@@ -21,7 +21,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/andris9/node-gettext/blob/master/LICENSE"
+      "url": "http://github.com/alexanderwallin/node-gettext/blob/master/LICENSE"
     }
   ],
   "dependencies": {
