@@ -1,8 +1,6 @@
-## NB!
-
-> This project is **unmaintained!** If anyone wants to take over please write to andris.reinman@gmail.com to get ownership of this repo and npm package
-
 # node-gettext
+
+[![Build Status](https://secure.travis-ci.org/andris9/node-gettext.png)](http://travis-ci.org/andris9/node-gettext)
 
 **node-gettext** is a Node.JS module to use .MO and .PO files.
 
@@ -12,12 +10,6 @@
 
   * Load binary *MO* or source *PO* files
   * Supports contexts and plurals
-
-[![Build Status](https://secure.travis-ci.org/andris9/node-gettext.png)](http://travis-ci.org/andris9/node-gettext)
-
-## Support node-gettext development
-
-[![Donate to author](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DB26KWR2BQX5W)
 
 ## Installation
 
