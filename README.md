@@ -1,6 +1,6 @@
 # node-gettext
 
-[![Build Status](https://secure.travis-ci.org/andris9/node-gettext.png)](http://travis-ci.org/andris9/node-gettext)
+[![Build Status](https://secure.travis-ci.org/alexanderwallin/node-gettext.png)](http://travis-ci.org/alexanderwallin/node-gettext)
 
 **node-gettext** is a Node.JS module to use .MO and .PO files.
 
