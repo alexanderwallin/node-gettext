@@ -37,7 +37,7 @@ Load from a *MO* file
 ```js
 gt.setlocale('de_DE');
 var fileDirectory = './locale/message/';
-gt.addTextdomain("message", fileDirectory); 
+gt.loadTextdomainDirectory("message", fileDirectory);
 // loads ./locale/message/de_DE.mo or ./locale/message/de.mo
 ```
 
@@ -80,11 +80,7 @@ gt.setTranslation("message", false, "hello!", "tere!");
 gt.setlocale("de");
 ```
 
-The function also returns the current locale value
-
-```js
-var curlang = gt.getLocale();
-```
+Unlike the C interface, this function does not return the current locale value. This might change in the future.
 
 ### Check or change default domain
 
