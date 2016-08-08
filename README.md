@@ -30,6 +30,21 @@ var gt = new Gettext();
 
 ### Add a language
 
+*loadTextdomainDirectory(domain, directory)*
+
+Load from a *MO* file
+
+```js
+gt.setlocale('de_DE');
+var fileDirectory = './locale/message/';
+gt.addTextdomain("message", fileDirectory); 
+// loads ./locale/message/de_DE.mo or ./locale/message/de.mo
+```
+
+Plural rules are automatically detected from the language code
+
+### Add a language
+
 *addTextdomain(domain, file)*
 
 Language data needs to be in the Buffer format - it can be either contents of a *MO* or *PO* file.
@@ -40,29 +55,43 @@ Load from a *MO* file
 
 ```js
 var fileContents = fs.readFileSync("et.mo");
-gt.addTextdomain("et", fileContents);
+gt.addTextdomain("message", fileContents);
 ```
 
 or load from a *PO* file
 
 ```js
 var fileContents = fs.readFileSync("et.po");
-gt.addTextdomain("et", fileContents);
+gt.addTextdomain("message", fileContents);
 ```
 
 Plural rules are automatically detected from the language code
 
 ```js
-gt.addTextdomain("et");
-gt.setTranslation("et", false, "hello!", "tere!");
+gt.addTextdomain("message");
+gt.setTranslation("message", false, "hello!", "tere!");
 ```
 
-### Check or change default language
+### Check or change default locale
+
+*setlocale(locale)*
+
+```js
+gt.setlocale("de");
+```
+
+The function also returns the current locale value
+
+```js
+var curlang = gt.getLocale();
+```
+
+### Check or change default domain
 
 *textdomain(domain)*
 
 ```js
-gt.textdomain("et");
+gt.textdomain("message");
 ```
 
 The function also returns the current texdomain value
@@ -86,7 +115,7 @@ var greeting = gt.gettext("Hello!");
 *dgettext(domain, msgid)*
 
 ```js
-var greeting = gt.dgettext("et", "Hello!");
+var greeting = gt.dgettext("message", "Hello!");
 ```
 
 ### Load a plural string from default language file
@@ -102,7 +131,7 @@ gt.ngettext("%d Comment", "%d Comments", 10);
 *dngettext(domain, msgid, msgid_plural, count)*
 
 ```js
-gt.dngettext("et", "%d Comment", "%d Comments", 10);
+gt.dngettext("message", "%d Comment", "%d Comments", 10);
 ```
 
 ### Load a string of a specific context
@@ -118,7 +147,7 @@ gt.pgettext("menu items", "File");
 *dpgettext(domain, msgctxt, msgid)*
 
 ```js
-gt.dpgettext("et", "menu items", "File");
+gt.dpgettext("message", "menu items", "File");
 ```
 
 ### Load a plural string of a specific context
@@ -134,7 +163,7 @@ gt.npgettext("menu items", "%d Recent File", "%d Recent Files", 3);
 *dnpgettext(domain, msgctxt, msgid, msgid_plural, count)*
 
 ```js
-gt.dnpgettext("et", "menu items", "%d Recent File", "%d Recent Files", 3);
+gt.dnpgettext("message", "menu items", "%d Recent File", "%d Recent Files", 3);
 ```
 
 ### Get comments for a translation (if loaded from PO)
@@ -142,14 +171,14 @@ gt.dnpgettext("et", "menu items", "%d Recent File", "%d Recent Files", 3);
 *getComment(domain, msgctxt, msgid)*
 
 ```js
-gt.getComment("et", "menu items", "%d Recent File");
+gt.getComment("message", "menu items", "%d Recent File");
 ```
 
 Returns an object in the form of `{translator: "", extracted: "", reference: "", flag: "", previous: ""}`
 
 ## Advanced handling
 
-If you need the translation object for a domain, for example `et_EE`, you can access it from `gt.domains.et_EE`.
+If you need the translation object for a domain, for example `message`, you can access it from `gt.domains.message`.
 
 If you want modify it and compile it to *mo* or *po*, checkout [gettext-parser](https://github.com/andris9/gettext-parser) module.
 
