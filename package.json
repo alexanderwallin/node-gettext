@@ -25,7 +25,8 @@
     }
   ],
   "dependencies": {
-    "gettext-parser": "^1.1.2"
+    "gettext-parser": "^1.1.2",
+    "lodash.get": "^4.4.2"
   },
   "devDependencies": {
     "chai": "^3.5.0",

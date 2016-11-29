@@ -8,108 +8,92 @@ var expect = chai.expect;
 chai.config.includeStack = true;
 
 describe('Gettext', function() {
+    var gt;
+    var jsonFile;
 
-    describe('#_normalizeDomain', function() {
-        it('should normalize domain key', function() {
-            var gt = new Gettext();
+    beforeEach(function() {
+        gt = new Gettext({ debug: false });
+        jsonFile = JSON.parse(fs.readFileSync(__dirname + '/fixtures/latin13.json'));
+    });
 
-            expect(gt._normalizeDomain('ab-cd_ef.utf-8')).to.equal('ab_CD-EF');
-            expect(gt._normalizeDomain('ab-cd_ef', true)).to.equal('ab');
+    describe('#_normalizeLocale', function() {
+        it('should normalize locale string', function() {
+            expect(gt._normalizeLocale('ab-cd_ef.utf-8')).to.equal('ab_CD-EF');
+            expect(gt._normalizeLocale('ab-cd_ef', true)).to.equal('ab');
         });
     });
 
-    describe('#addTextdomain', function() {
+    describe('#addTranslations', function() {
+        it('should store added translations', function() {
+            gt.addTranslations('et-EE', 'messages', jsonFile);
 
-        it('Should add from a mo file', function() {
-            var gt = new Gettext();
-            var moFile = fs.readFileSync(__dirname + '/fixtures/latin13.mo');
-
-            gt.addTextdomain('et-EE', moFile);
-
-            expect(gt.domains.et_EE).to.exist;
-            expect(gt.domains.et_EE.charset).to.equal('iso-8859-13');
+            expect(gt.catalogs['et-EE']).to.exist;
+            expect(gt.catalogs['et-EE'].messages).to.exist;
+            expect(gt.catalogs['et-EE'].messages.charset).to.equal('iso-8859-13');
         });
 
-        it('Should add from a po file', function() {
-            var gt = new Gettext();
-            var poFile = fs.readFileSync(__dirname + '/fixtures/latin13.po');
+        it('should store added translations on a custom domain', function() {
+            gt.addTranslations('et-EE', 'mydomain', jsonFile);
 
-            gt.addTextdomain('et-EE', poFile);
-
-            expect(gt.domains.et_EE).to.exist;
-            expect(gt.domains.et_EE.charset).to.equal('iso-8859-13');
+            expect(gt.catalogs['et-EE'].mydomain).to.exist;
+            expect(gt.catalogs['et-EE'].mydomain.charset).to.equal('iso-8859-13');
         });
-
-        it('Should add from a json file', function() {
-            var gt = new Gettext();
-            var jsonFile = JSON.parse(fs.readFileSync(__dirname + '/fixtures/latin13.json'));
-
-            gt.addTextdomain('et-EE', jsonFile);
-
-            expect(gt.domains.et_EE).to.exist;
-            expect(gt.domains.et_EE.charset).to.equal('iso-8859-13');
-        });
-
     });
 
-    describe('#textdomain', function() {
-        it('should set default domain', function() {
-            var gt = new Gettext();
-            var moFile = fs.readFileSync(__dirname + '/fixtures/latin13.mo');
-
-            expect(gt.textdomain()).to.be.false;
-            gt.addTextdomain('et-EE', moFile);
-            expect(gt.textdomain()).to.equal('et_EE');
-            gt.addTextdomain('cd-EE', moFile);
-            expect(gt.textdomain()).to.equal('et_EE');
+    describe('#setLocale', function() {
+        it('should have no default locale', function() {
+            expect(gt.locale).to.equal(null);
         });
 
-        it('should change default domain', function() {
-            var gt = new Gettext();
-            var moFile = fs.readFileSync(__dirname + '/fixtures/latin13.mo');
+        it ('should not accept a locale that has no translations', function() {
+            gt.setLocale('de-AT');
+            expect(gt.locale).to.equal(null);
+        });
 
-            expect(gt.textdomain()).to.be.false;
-            gt.addTextdomain('et-EE', moFile);
-            expect(gt.textdomain()).to.equal('et_EE');
-            gt.addTextdomain('cd-EE', moFile);
-            expect(gt.textdomain()).to.equal('et_EE');
-            gt.textdomain('cd_EE');
-            expect(gt.textdomain()).to.equal('cd_EE');
+        it('should change locale if translations exist', function() {
+            gt.addTranslations('et-EE', 'messages', jsonFile);
+            gt.setLocale('et-EE');
+            expect(gt.locale).to.equal('et-EE');
+        });
+    });
+
+    describe('#setTextDomain', function() {
+        it('defaults to "messages"', function() {
+            expect(gt.domain).to.equal('messages');
+        });
+
+        it('does not accept an empty value', function() {
+            gt.setTextDomain('');
+            expect(gt.domain).to.equal('messages');
+        });
+
+        it('accepts and stores a non-empty domain name', function() {
+            gt.setTextDomain('mydomain');
+            expect(gt.domain).to.equal('mydomain');
         });
     });
 
     describe('Resolve translations', function() {
-        var gt;
-
         beforeEach(function() {
-            gt = new Gettext();
-            var poFile = fs.readFileSync(__dirname + '/fixtures/latin13.po');
-            gt.addTextdomain('et-EE', poFile);
+            gt.addTranslations('et-EE', 'messages', jsonFile);
+            gt.setLocale('et-EE');
         });
 
         describe('#dnpgettext', function() {
-            it('should return default singular', function() {
-                expect(gt.dnpgettext('et_EE', '', '0 matches', 'multiple matches', 1)).to.equal('0 matches');
-            });
-
-            it('should return default plural', function() {
-                expect(gt.dnpgettext('et_EE', '', '0 matches', 'multiple matches', 100)).to.equal('multiple matches');
-            });
-
             it('should return singular match from default context', function() {
-                expect(gt.dnpgettext('et_EE', '', 'o2-1', 'o2-2', 1)).to.equal('t2-1');
+                expect(gt.dnpgettext('messages', '', 'o2-1', 'o2-2', 1)).to.equal('t2-1');
             });
 
             it('should return plural match from default context', function() {
-                expect(gt.dnpgettext('et_EE', '', 'o2-1', 'o2-2', 2)).to.equal('t2-2');
+                expect(gt.dnpgettext('messages', '', 'o2-1', 'o2-2', 2)).to.equal('t2-2');
             });
 
             it('should return singular match from selected context', function() {
-                expect(gt.dnpgettext('et_EE', 'c2', 'co2-1', 'co2-2', 1)).to.equal('ct2-1');
+                expect(gt.dnpgettext('messages', 'c2', 'co2-1', 'co2-2', 1)).to.equal('ct2-1');
             });
 
             it('should return plural match from selected context', function() {
-                expect(gt.dnpgettext('et_EE', 'c2', 'co2-1', 'co2-2', 2)).to.equal('ct2-2');
+                expect(gt.dnpgettext('messages', 'c2', 'co2-1', 'co2-2', 2)).to.equal('ct2-2');
             });
 
             it('should return singular match for non existing domain', function() {
@@ -125,7 +109,7 @@ describe('Gettext', function() {
 
         describe('#dgettext', function() {
             it('should return singular from default context', function() {
-                expect(gt.dgettext('et-ee', 'o2-1')).to.equal('t2-1');
+                expect(gt.dgettext('messages', 'o2-1')).to.equal('t2-1');
             });
         });
 
@@ -137,7 +121,7 @@ describe('Gettext', function() {
 
         describe('#dngettext', function() {
             it('should return plural from default context', function() {
-                expect(gt.dngettext('et-ee', 'o2-1', 'o2-2', 2)).to.equal('t2-2');
+                expect(gt.dngettext('messages', 'o2-1', 'o2-2', 2)).to.equal('t2-2');
             });
         });
 
@@ -149,7 +133,7 @@ describe('Gettext', function() {
 
         describe('#dpgettext', function() {
             it('should return singular from selected context', function() {
-                expect(gt.dpgettext('et-ee', 'c2', 'co2-1')).to.equal('ct2-1');
+                expect(gt.dpgettext('messages', 'c2', 'co2-1')).to.equal('ct2-1');
             });
         });
 
@@ -161,7 +145,7 @@ describe('Gettext', function() {
 
         describe('#getComment', function() {
             it('should return comments object', function() {
-                expect(gt.getComment('et-ee', '', 'test')).to.deep.equal({
+                expect(gt.getComment('messages', '', 'test')).to.deep.equal({
                     translator: 'Normal comment line 1\nNormal comment line 2',
                     extracted: 'Editors note line 1\nEditors note line 2',
                     reference: '/absolute/path:13\n/absolute/path:14',
@@ -169,6 +153,26 @@ describe('Gettext', function() {
                     previous: 'line 3\nline 4'
                 });
             });
+        });
+    });
+
+    describe('Unresolvable transaltions', function() {
+        beforeEach(function() {
+            gt.addTranslations('et-EE', 'messages', jsonFile);
+        });
+
+        it('should pass msgid until a locale is set', function() {
+            expect(gt.gettext('o2-1')).to.equal('o2-1');
+            gt.setLocale('et-EE');
+            expect(gt.gettext('o2-1')).to.equal('t2-1');
+        });
+
+        it('should pass unresolved singular message when count is 1', function() {
+            expect(gt.dnpgettext('messages', '', '0 matches', 'multiple matches', 1)).to.equal('0 matches');
+        });
+
+        it('should pass unresolved plural message when count > 1', function() {
+            expect(gt.dnpgettext('messages', '', '0 matches', 'multiple matches', 100)).to.equal('multiple matches');
         });
     });
 });
