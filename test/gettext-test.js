@@ -16,10 +16,10 @@ describe('Gettext', function() {
         jsonFile = JSON.parse(fs.readFileSync(__dirname + '/fixtures/latin13.json'));
     });
 
-    describe('#_normalizeLocale', function() {
+    describe('#getLanguageCode', function() {
         it('should normalize locale string', function() {
-            expect(gt._normalizeLocale('ab-cd_ef.utf-8')).to.equal('ab_CD-EF');
-            expect(gt._normalizeLocale('ab-cd_ef', true)).to.equal('ab');
+            expect(Gettext.getLanguageCode('ab-cd_ef.utf-8')).to.equal('ab');
+            expect(Gettext.getLanguageCode('ab-cd_ef')).to.equal('ab');
         });
     });
 
