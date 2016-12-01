@@ -25,7 +25,9 @@
     }
   ],
   "dependencies": {
+    "eventemitter3": "^2.0.2",
     "gettext-parser": "^1.1.2",
+    "lodash.assign": "^4.2.0",
     "lodash.get": "^4.4.2"
   },
   "devDependencies": {
