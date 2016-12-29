@@ -25,14 +25,11 @@ If you just want to parse or compile mo/po files, check out [gettext-parser](htt
 ## Features
 
 * Supports domains, contexts and plurals
-* Supports JSON, .mo and .po files with the help of [gettext-parser](https://github.com/andris9/gettext-parser)
+* Supports .json, .mo and .po files with the help of [gettext-parser](https://github.com/andris9/gettext-parser)
 * Ships with plural forms for 136 languages
 * Change locale or domain on the fly
 * Useful error messages enabled by a `debug` option
 * **Events** Subscribe and unsubscribe to internal error events, such as missing translations
-* **File I/O** Load, parse and add translations from file paths
-* **File I/O** Load, parse and add translations from locale and domain names, using a file path pattern
-* **File I/O** Supports .mo and .po files (using [gettext-parser](https://github.com/andris9/gettext-parser))
 
 
 ## Installation
@@ -73,19 +70,6 @@ gt.on('error', error => console.log('oh nose'))
 gt.gettext('An unrecognized message')
 ```
 
-### File I/O helpers extension
-
-```js
-import Gettext from 'node-gettext'
-import withFileIOHelpers from 'node-gettext/io'
-
-const EnhancedGettext = withFileIOHelpers(Gettext)
-const gt = new EnhancedGettext()
-
-// We can now load translations by providing file paths
-gt.addTranslationsFromFile('sv-SE', './path/to/translations.mo', 'messages')
-```
-
 
 ## Migrating from 1.x to 2.x
 
@@ -107,6 +91,7 @@ On top of that there a couple of more breaking changes to be aware of:
 ## API
 
 {{>main}}
+
 
 ## License
 
