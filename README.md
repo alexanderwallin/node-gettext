@@ -1,6 +1,6 @@
 
 <p align="center">
- <img src="http://alexanderwallin.com/download/node-gettext-logo.png" width="160" height="160" />
+ <img src="docs/node-gettext-logo.png" width="160" height="160" />
 </p>
 
 <h1 align="center">
@@ -106,130 +106,237 @@ On top of that there a couple of more breaking changes to be aware of:
 
 ## API
 
-### Gettext(options)
+<a name="Gettext"></a>
 
-* `options`
-  * `debug` - Prints warning messages to the console if set to `true`. Defaults to `false`.
+## Gettext
+<a name="new_Gettext_new"></a>
 
-### Add a language
+### new Gettext(options)
+Creates and returns a new Gettext instance.
 
-*addTextdomain(domain, file)*
+**Returns**: <code>Object</code> - A Gettext instance  
+**Params**
 
-Language data needs to be in the Buffer format - it can be either contents of a *MO* or *PO* file.
+- `options`: <code>Object</code> - A set of options
+    - `.debug`: <code>Boolean</code> - Whether to output debug info into the
+                                 console.
 
-*addTextdomain(domain[, fileContents])*
+<a name="Gettext+addTranslations"></a>
 
-Load from a *MO* file
+### gettext.addTranslations(locale, domain, translations)
+Stores a set of translations in the set of gettext
+catalogs.
 
+**Params**
+
+- `locale`: <code>String</code> - A locale string
+- `domain`: <code>String</code> - A domain name
+- `translations`: <code>Object</code> - An object of gettext-parser JSON shape
+
+**Example**  
 ```js
-var fileContents = fs.readFileSync("et.mo");
-gt.addTextdomain("et", fileContents);
+gt.addTranslations('sv-SE', 'messages', translationsObject)
 ```
+<a name="Gettext+setLocale"></a>
 
-or load from a *PO* file
+### gettext.setLocale(locale)
+Sets the locale to get translated messages for.
 
+**Params**
+
+- `locale`: <code>String</code> - A locale
+
+**Example**  
 ```js
-var fileContents = fs.readFileSync("et.po");
-gt.addTextdomain("et", fileContents);
+gt.setLocale('sv-SE')
 ```
+<a name="Gettext+setTextDomain"></a>
 
-Plural rules are automatically detected from the language code
+### gettext.setTextDomain(domain)
+Sets the default gettext domain.
 
+**Params**
+
+- `domain`: <code>String</code> - A gettext domain name
+
+**Example**  
 ```js
-gt.addTextdomain("et");
-gt.setTranslation("et", false, "hello!", "tere!");
+gt.setTextDomain('domainname')
 ```
+<a name="Gettext+gettext"></a>
 
-### Check or change default language
+### gettext.gettext(msgid) ⇒ <code>String</code>
+Translates a string using the default textdomain
 
-*textdomain(domain)*
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
+**Params**
 
+- `msgid`: <code>String</code> - String to be translated
+
+**Example**  
 ```js
-gt.textdomain("et");
+gt.gettext('Some text')
 ```
+<a name="Gettext+dgettext"></a>
 
-The function also returns the current texdomain value
+### gettext.dgettext(domain, msgid) ⇒ <code>String</code>
+Translates a string using a specific domain
 
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
+**Params**
+
+- `domain`: <code>String</code> - A gettext domain name
+- `msgid`: <code>String</code> - String to be translated
+
+**Example**  
 ```js
-var curlang = gt.textdomain();
+gt.dgettext('domainname', 'Some text')
 ```
+<a name="Gettext+ngettext"></a>
 
-## Translation methods
+### gettext.ngettext(msgid, msgidPlural, count) ⇒ <code>String</code>
+Translates a plural string using the default textdomain
 
-### Load a string from default language file
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
+**Params**
 
-*gettext(msgid)*
+- `msgid`: <code>String</code> - String to be translated
+- `msgidPlural`: <code>String</code> - If no translation was found, return this on count!=1
+- `count`: <code>Number</code> - Number count for the plural
 
+**Example**  
 ```js
-var greeting = gt.gettext("Hello!");
+gt.ngettext('One thing', 'Many things', numberOfThings)
 ```
+<a name="Gettext+dngettext"></a>
 
-### Load a string from a specific language file
+### gettext.dngettext(domain, msgid, msgidPlural, count) ⇒ <code>String</code>
+Translates a plural string using a specific textdomain
 
-*dgettext(domain, msgid)*
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
+**Params**
 
+- `domain`: <code>String</code> - A gettext domain name
+- `msgid`: <code>String</code> - String to be translated
+- `msgidPlural`: <code>String</code> - If no translation was found, return this on count!=1
+- `count`: <code>Number</code> - Number count for the plural
+
+**Example**  
 ```js
-var greeting = gt.dgettext("et", "Hello!");
+gt.dngettext('domainname', One thing', 'Many things', numberOfThings)
 ```
+<a name="Gettext+pgettext"></a>
 
-### Load a plural string from default language file
+### gettext.pgettext(msgctxt, msgid) ⇒ <code>String</code>
+Translates a string from a specific context using the default textdomain
 
-*ngettext(msgid, msgid_plural, count)*
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
+**Params**
 
+- `msgctxt`: <code>String</code> - Translation context
+- `msgid`: <code>String</code> - String to be translated
+
+**Example**  
 ```js
-gt.ngettext("%d Comment", "%d Comments", 10);
+gt.pgettext('sports', 'Back')
 ```
+<a name="Gettext+dpgettext"></a>
 
-### Load a plural string from a specific language file
+### gettext.dpgettext(domain, msgctxt, msgid) ⇒ <code>String</code>
+Translates a string from a specific context using s specific textdomain
 
-*dngettext(domain, msgid, msgid_plural, count)*
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
+**Params**
 
+- `domain`: <code>String</code> - A gettext domain name
+- `msgctxt`: <code>String</code> - Translation context
+- `msgid`: <code>String</code> - String to be translated
+
+**Example**  
 ```js
-gt.dngettext("et", "%d Comment", "%d Comments", 10);
+gt.dpgettext('domainname', 'sports', 'Back')
 ```
+<a name="Gettext+npgettext"></a>
 
-### Load a string of a specific context
+### gettext.npgettext(msgctxt, msgid, msgidPlural, count) ⇒ <code>String</code>
+Translates a plural string from a specific context using the default textdomain
 
-*pgettext(msgctxt, msgid)*
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
+**Params**
 
+- `msgctxt`: <code>String</code> - Translation context
+- `msgid`: <code>String</code> - String to be translated
+- `msgidPlural`: <code>String</code> - If no translation was found, return this on count!=1
+- `count`: <code>Number</code> - Number count for the plural
+
+**Example**  
 ```js
-gt.pgettext("menu items", "File");
+gt.npgettext('sports', 'Back', '%d backs', numberOfBacks)
 ```
+<a name="Gettext+dnpgettext"></a>
 
-### Load a string of a specific context from specific language file
+### gettext.dnpgettext(domain, msgctxt, msgid, msgidPlural, count) ⇒ <code>String</code>
+Translates a plural string from a specifi context using a specific textdomain
 
-*dpgettext(domain, msgctxt, msgid)*
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
+**Params**
 
+- `domain`: <code>String</code> - A gettext domain name
+- `msgctxt`: <code>String</code> - Translation context
+- `msgid`: <code>String</code> - String to be translated
+- `msgidPlural`: <code>String</code> - If no translation was found, return this on count!=1
+- `count`: <code>Number</code> - Number count for the plural
+
+**Example**  
 ```js
-gt.dpgettext("et", "menu items", "File");
+gt.dnpgettext('domainname', 'sports', 'Back', '%d backs', numberOfBacks)
 ```
+<a name="Gettext+getComment"></a>
 
-### Load a plural string of a specific context
+### gettext.getComment(domain, msgctxt, msgid) ⇒ <code>Object</code>
+Retrieves comments object for a translation. The comments object
+has the shape `{ translator, extracted, reference, flag, previous }`.
 
-*npgettext(msgctxt, msgid, msgid_plural, count)*
+**Returns**: <code>Object</code> - Comments object or false if not found  
+**Params**
 
+- `domain`: <code>String</code> - A gettext domain name
+- `msgctxt`: <code>String</code> - Translation context
+- `msgid`: <code>String</code> - String to be translated
+
+**Example**  
 ```js
-gt.npgettext("menu items", "%d Recent File", "%d Recent Files", 3);
+const comment = gt.getComment('domainname', 'sports', 'Backs')
 ```
+<a name="Gettext+addTextdomain"></a>
 
-### Load a plural string of a specific context from specific language file
+### ~~gettext.addTextdomain()~~
+***Deprecated***
 
-*dnpgettext(domain, msgctxt, msgid, msgid_plural, count)*
+This function will be removed in the final 2.0.0 release.
 
+<a name="Gettext+textdomain"></a>
+
+### ~~gettext.textdomain()~~
+***Deprecated***
+
+This function will be removed in the final 2.0.0 release.
+
+<a name="Gettext.getLanguageCode"></a>
+
+### Gettext.getLanguageCode(locale) ⇒ <code>String</code>
+Returns the language code part of a locale
+
+**Returns**: <code>String</code> - A language code  
+**Params**
+
+- `locale`: <code>String</code> - A case-insensitive locale string
+
+**Example**  
 ```js
-gt.dnpgettext("et", "menu items", "%d Recent File", "%d Recent Files", 3);
+Gettext.getLanguageCode('sv-SE')
+    // -> "sv"
 ```
-
-### Get comments for a translation (if loaded from PO)
-
-*getComment(domain, msgctxt, msgid)*
-
-```js
-gt.getComment("et", "menu items", "%d Recent File");
-```
-
-Returns an object in the form of `{translator: "", extracted: "", reference: "", flag: "", previous: ""}`
-
 
 ## License
 

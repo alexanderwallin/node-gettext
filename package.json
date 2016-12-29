@@ -15,7 +15,8 @@
     "url": "http://github.com/alexanderwallin/node-gettext.git"
   },
   "scripts": {
-    "test": "grunt"
+    "test": "grunt",
+    "docs": "jsdoc2md -f lib/gettext.js -t docs/README.template.md --partial docs/templates/*.hbs --param-list-format list > README.md"
   },
   "main": "./lib/gettext",
   "licenses": [
@@ -36,6 +37,7 @@
     "grunt-cli": "^1.2.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-mocha-test": "^0.12.7",
+    "jsdoc-to-markdown": "^2.0.1",
     "mocha": "^2.4.5"
   },
   "engine": {
