@@ -25,6 +25,7 @@ If you just want to parse or compile mo/po files, check out [gettext-parser](htt
 ## Features
 
 * Supports domains, contexts and plurals
+* Supports JSON, .mo and .po files with the help of [gettext-parser](https://github.com/andris9/gettext-parser)
 * Ships with plural forms for 136 languages
 * Change locale or domain on the fly
 * Useful error messages enabled by a `debug` option
