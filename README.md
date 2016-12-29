@@ -223,7 +223,7 @@ Translates a plural string using a specific textdomain
 
 **Example**  
 ```js
-gt.dngettext('domainname', One thing', 'Many things', numberOfThings)
+gt.dngettext('domainname', 'One thing', 'Many things', numberOfThings)
 ```
 <a name="Gettext+pgettext"></a>
 
