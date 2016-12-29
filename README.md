@@ -200,8 +200,8 @@ Translates a plural string using the default textdomain
 **Returns**: <code>String</code> - Translation or the original string if no translation was found  
 **Params**
 
-- `msgid`: <code>String</code> - String to be translated
-- `msgidPlural`: <code>String</code> - If no translation was found, return this on count!=1
+- `msgid`: <code>String</code> - String to be translated when count is not plural
+- `msgidPlural`: <code>String</code> - String to be translated when count is plural
 - `count`: <code>Number</code> - Number count for the plural
 
 **Example**  
@@ -217,8 +217,8 @@ Translates a plural string using a specific textdomain
 **Params**
 
 - `domain`: <code>String</code> - A gettext domain name
-- `msgid`: <code>String</code> - String to be translated
-- `msgidPlural`: <code>String</code> - If no translation was found, return this on count!=1
+- `msgid`: <code>String</code> - String to be translated when count is not plural
+- `msgidPlural`: <code>String</code> - String to be translated when count is plural
 - `count`: <code>Number</code> - Number count for the plural
 
 **Example**  
@@ -265,8 +265,8 @@ Translates a plural string from a specific context using the default textdomain
 **Params**
 
 - `msgctxt`: <code>String</code> - Translation context
-- `msgid`: <code>String</code> - String to be translated
-- `msgidPlural`: <code>String</code> - If no translation was found, return this on count!=1
+- `msgid`: <code>String</code> - String to be translated when count is not plural
+- `msgidPlural`: <code>String</code> - String to be translated when count is plural
 - `count`: <code>Number</code> - Number count for the plural
 
 **Example**  
