@@ -29,7 +29,7 @@ If you just want to parse or compile mo/po files, check out [gettext-parser](htt
 * Ships with plural forms for 136 languages
 * Change locale or domain on the fly
 * Useful error messages enabled by a `debug` option
-* **Events** Subscribe and unsubscribe to internal error events, such as missing translations
+* Emits events for internal errors, such as missing translations
 
 
 ## Installation
@@ -53,21 +53,14 @@ gt.gettext('The world is a funny place')
 // -> "Världen är en underlig plats"
 ```
 
-### Events extension
+### Error events
 
 ```js
-import Gettext from 'node-gettext'
-import withGettextEvents from 'node-gettext/events'
+// Add translations etc...
 
-const EnhancedGettext = withGettextEvents(Gettext)
-const gt = new EnhancedGettext()
-// Add translations here...
-
-// We can now subscribe to 'error' events
-gt.on('error', error => console.log('oh nose'))
-
-// This will nog log "oh nose" to the console
+gt.on('error', error => console.log('oh nose', error))
 gt.gettext('An unrecognized message')
+// -> 'oh nose', 'An unrecognized message'
 ```
 
 
@@ -104,6 +97,36 @@ Creates and returns a new Gettext instance.
 - `options`: <code>Object</code> - A set of options
     - `.debug`: <code>Boolean</code> - Whether to output debug info into the
                                  console.
+
+<a name="Gettext+on"></a>
+
+### gettext.on(eventName, callback)
+Adds an event listener.
+
+**Params**
+
+- `eventName`: <code>String</code> - An event name
+- `callback`: <code>function</code> - An event handler function
+
+<a name="Gettext+off"></a>
+
+### gettext.off(eventName, callback)
+Removes an event listener.
+
+**Params**
+
+- `eventName`: <code>String</code> - An event name
+- `callback`: <code>function</code> - A previously registered event handler function
+
+<a name="Gettext+emit"></a>
+
+### gettext.emit(eventName, eventData)
+Emits an event to all registered event listener.
+
+**Params**
+
+- `eventName`: <code>String</code> - An event name
+- `eventData`: <code>any</code> - Data to pass to event listeners
 
 <a name="Gettext+addTranslations"></a>
 

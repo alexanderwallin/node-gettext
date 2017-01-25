@@ -16,14 +16,12 @@
   },
   "scripts": {
     "test": "grunt",
-    "docs": "jsdoc2md -f lib/gettext.js -t docs/README.template.md --partial docs/templates/*.hbs --param-list-format list > README.md",
-    "prebuild": "rimraf events",
-    "build": "cpy --rename=index.js ./lib/events.js ./events"
+    "docs": "jsdoc2md -f lib/gettext.js -t docs/README.template.md --partial docs/templates/*.hbs --param-list-format list > README.md"
   },
   "main": "./lib/gettext.js",
   "files": [
-    "events",
-    "lib"
+    "lib",
+    "test"
   ],
   "licenses": [
     {
@@ -39,14 +37,13 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "cpy-cli": "^1.0.1",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-mocha-test": "^0.12.7",
     "jsdoc-to-markdown": "^2.0.1",
     "mocha": "^2.4.5",
-    "rimraf": "^2.5.4"
+    "sinon": "^1.17.7"
   },
   "engine": {
     "node": ">=0.6"

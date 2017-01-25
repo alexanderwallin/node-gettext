@@ -29,7 +29,7 @@ If you just want to parse or compile mo/po files, check out [gettext-parser](htt
 * Ships with plural forms for 136 languages
 * Change locale or domain on the fly
 * Useful error messages enabled by a `debug` option
-* **Events** Subscribe and unsubscribe to internal error events, such as missing translations
+* Emits events for internal errors, such as missing translations
 
 
 ## Installation
@@ -53,21 +53,14 @@ gt.gettext('The world is a funny place')
 // -> "Världen är en underlig plats"
 ```
 
-### Events extension
+### Error events
 
 ```js
-import Gettext from 'node-gettext'
-import withGettextEvents from 'node-gettext/events'
+// Add translations etc...
 
-const EnhancedGettext = withGettextEvents(Gettext)
-const gt = new EnhancedGettext()
-// Add translations here...
-
-// We can now subscribe to 'error' events
-gt.on('error', error => console.log('oh nose'))
-
-// This will nog log "oh nose" to the console
+gt.on('error', error => console.log('oh nose', error))
 gt.gettext('An unrecognized message')
+// -> 'oh nose', 'An unrecognized message'
 ```
 
 

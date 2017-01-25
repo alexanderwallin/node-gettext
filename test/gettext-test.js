@@ -3,6 +3,7 @@
 var chai = require('chai');
 var Gettext = require('../lib/gettext');
 var fs = require('fs');
+var sinon = require('sinon');
 
 var expect = chai.expect;
 chai.config.includeStack = true;
@@ -173,6 +174,26 @@ describe('Gettext', function() {
 
         it('should pass unresolved plural message when count > 1', function() {
             expect(gt.dnpgettext('messages', '', '0 matches', 'multiple matches', 100)).to.equal('multiple matches');
+        });
+    });
+
+    describe('Events', function() {
+        var errorListener;
+
+        beforeEach(function() {
+            errorListener = sinon.spy();
+            gt.on('error', errorListener);
+        });
+
+        it('should notify a registered listener of error events', function() {
+            gt.emit('error', 'Something went wrong');
+            expect(errorListener.callCount).to.equal(1);
+        });
+
+        it('should deregister a previously registered event listener', function() {
+            gt.off('error', errorListener);
+            gt.emit('error', 'Something went wrong');
+            expect(errorListener.callCount).to.equal(0);
         });
     });
 });
