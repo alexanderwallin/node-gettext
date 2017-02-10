@@ -12,13 +12,14 @@
 
 **`node-gettext`** is a JavaScript implementation of [gettext](https://www.gnu.org/software/gettext/gettext.html).
 
-If you just want to parse or compile mo/po files, check out [gettext-parser](https://github.com/andris9/gettext-parser).
+If you just want to parse or compile mo/po files, check out [gettext-parser](https://github.com/smhg/gettext-parser).
 
-**NOTE:** This is the README for v2 of node-gettext, which introduces many braking changes. v2 is currently in alpha. You can find the [README for v1 here](https://github.com/alexanderwallin/node-gettext/blob/master/docs/v1/README.md).
+**NOTE:** This is the README for v2 of node-gettext, which introduces many braking changes and is currently in alpha. You can find the [README for v1 here](https://github.com/alexanderwallin/node-gettext/blob/master/docs/v1/README.md).
 
 * [Features](#features)
 * [Installation](#installation)
 * [Usage](#usage)
+* [Migrating from v1 to v2](#migrating-from-v1-to-v2)
 * [API](#api)
 * [License](#license)
 * [See also](#see-also)
@@ -66,18 +67,17 @@ gt.gettext('An unrecognized message')
 ```
 
 
-## Migrating from 1.x to 2.x
+## Migrating from v1 to v2
 
-Version 1.x of `node-gettext` confused domains with locales, which version 2 has corrected. This contains the following breaking changes:
+Version 1 of `node-gettext` confused domains with locales, which version 2 has corrected. `node-gettext` also no longer parses files or file paths for you, but accepts only ready-parsed JSON translation objects.
+
+Here is a full list of all breaking changes:
 
 * `textdomain(domain)` is now `setLocale(locale)`
 * `dgettext`, `dngettext`, `dpgettext` and `dnpgettext` does not treat the leading `domain` argument as a locale, but as a domain. To get a translation from a certain locale you need to call `setLocale(locale)` beforehand.
 * A new `setTextDomain(domain)` has been introduced
-
-On top of that there a couple of more breaking changes to be aware of:
-
 * `addTextdomain(domain, file)` is now `addTranslations(locale, domain, translations)`
-* `addTranslations(locale, domain, translations)` only accepts a JSON object with the [shape described in the `gettext-parser` README](https://github.com/smhg/gettext-parser#data-structure-of-parsed-mopo-files). To load translations from .mo or .po files, use [gettext-parser](https://github.com/smhg/gettext-parser).
+* `addTranslations(locale, domain, translations)` **only accepts a JSON object with the [shape described in the `gettext-parser` README](https://github.com/smhg/gettext-parser#data-structure-of-parsed-mopo-files)**. To load translations from .mo or .po files, use [gettext-parser](https://github.com/smhg/gettext-parser), and it will provide you with valid JSON objects.
 * `_currentDomain` is now `domain`
 * `domains` is now `catalogs`
 * The instance method `__normalizeDomain(domain)` has been replaced by a static method `Gettext.getLanguageCode(locale)`
@@ -93,7 +93,7 @@ On top of that there a couple of more breaking changes to be aware of:
 ### new Gettext(options)
 Creates and returns a new Gettext instance.
 
-**Returns**: <code>Object</code> - A Gettext instance
+**Returns**: <code>Object</code> - A Gettext instance  
 **Params**
 
 - `options`: <code>Object</code> - A set of options
@@ -142,7 +142,7 @@ catalogs.
 - `domain`: <code>String</code> - A domain name
 - `translations`: <code>Object</code> - An object of gettext-parser JSON shape
 
-**Example**
+**Example**  
 ```js
 gt.addTranslations('sv-SE', 'messages', translationsObject)
 ```
@@ -155,7 +155,7 @@ Sets the locale to get translated messages for.
 
 - `locale`: <code>String</code> - A locale
 
-**Example**
+**Example**  
 ```js
 gt.setLocale('sv-SE')
 ```
@@ -168,7 +168,7 @@ Sets the default gettext domain.
 
 - `domain`: <code>String</code> - A gettext domain name
 
-**Example**
+**Example**  
 ```js
 gt.setTextDomain('domainname')
 ```
@@ -177,12 +177,12 @@ gt.setTextDomain('domainname')
 ### gettext.gettext(msgid) ⇒ <code>String</code>
 Translates a string using the default textdomain
 
-**Returns**: <code>String</code> - Translation or the original string if no translation was found
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
 **Params**
 
 - `msgid`: <code>String</code> - String to be translated
 
-**Example**
+**Example**  
 ```js
 gt.gettext('Some text')
 ```
@@ -191,13 +191,13 @@ gt.gettext('Some text')
 ### gettext.dgettext(domain, msgid) ⇒ <code>String</code>
 Translates a string using a specific domain
 
-**Returns**: <code>String</code> - Translation or the original string if no translation was found
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
 **Params**
 
 - `domain`: <code>String</code> - A gettext domain name
 - `msgid`: <code>String</code> - String to be translated
 
-**Example**
+**Example**  
 ```js
 gt.dgettext('domainname', 'Some text')
 ```
@@ -206,14 +206,14 @@ gt.dgettext('domainname', 'Some text')
 ### gettext.ngettext(msgid, msgidPlural, count) ⇒ <code>String</code>
 Translates a plural string using the default textdomain
 
-**Returns**: <code>String</code> - Translation or the original string if no translation was found
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
 **Params**
 
 - `msgid`: <code>String</code> - String to be translated when count is not plural
 - `msgidPlural`: <code>String</code> - String to be translated when count is plural
 - `count`: <code>Number</code> - Number count for the plural
 
-**Example**
+**Example**  
 ```js
 gt.ngettext('One thing', 'Many things', numberOfThings)
 ```
@@ -222,7 +222,7 @@ gt.ngettext('One thing', 'Many things', numberOfThings)
 ### gettext.dngettext(domain, msgid, msgidPlural, count) ⇒ <code>String</code>
 Translates a plural string using a specific textdomain
 
-**Returns**: <code>String</code> - Translation or the original string if no translation was found
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
 **Params**
 
 - `domain`: <code>String</code> - A gettext domain name
@@ -230,7 +230,7 @@ Translates a plural string using a specific textdomain
 - `msgidPlural`: <code>String</code> - String to be translated when count is plural
 - `count`: <code>Number</code> - Number count for the plural
 
-**Example**
+**Example**  
 ```js
 gt.dngettext('domainname', 'One thing', 'Many things', numberOfThings)
 ```
@@ -239,13 +239,13 @@ gt.dngettext('domainname', 'One thing', 'Many things', numberOfThings)
 ### gettext.pgettext(msgctxt, msgid) ⇒ <code>String</code>
 Translates a string from a specific context using the default textdomain
 
-**Returns**: <code>String</code> - Translation or the original string if no translation was found
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
 **Params**
 
 - `msgctxt`: <code>String</code> - Translation context
 - `msgid`: <code>String</code> - String to be translated
 
-**Example**
+**Example**  
 ```js
 gt.pgettext('sports', 'Back')
 ```
@@ -254,14 +254,14 @@ gt.pgettext('sports', 'Back')
 ### gettext.dpgettext(domain, msgctxt, msgid) ⇒ <code>String</code>
 Translates a string from a specific context using s specific textdomain
 
-**Returns**: <code>String</code> - Translation or the original string if no translation was found
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
 **Params**
 
 - `domain`: <code>String</code> - A gettext domain name
 - `msgctxt`: <code>String</code> - Translation context
 - `msgid`: <code>String</code> - String to be translated
 
-**Example**
+**Example**  
 ```js
 gt.dpgettext('domainname', 'sports', 'Back')
 ```
@@ -270,7 +270,7 @@ gt.dpgettext('domainname', 'sports', 'Back')
 ### gettext.npgettext(msgctxt, msgid, msgidPlural, count) ⇒ <code>String</code>
 Translates a plural string from a specific context using the default textdomain
 
-**Returns**: <code>String</code> - Translation or the original string if no translation was found
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
 **Params**
 
 - `msgctxt`: <code>String</code> - Translation context
@@ -278,7 +278,7 @@ Translates a plural string from a specific context using the default textdomain
 - `msgidPlural`: <code>String</code> - String to be translated when count is plural
 - `count`: <code>Number</code> - Number count for the plural
 
-**Example**
+**Example**  
 ```js
 gt.npgettext('sports', 'Back', '%d backs', numberOfBacks)
 ```
@@ -287,7 +287,7 @@ gt.npgettext('sports', 'Back', '%d backs', numberOfBacks)
 ### gettext.dnpgettext(domain, msgctxt, msgid, msgidPlural, count) ⇒ <code>String</code>
 Translates a plural string from a specifi context using a specific textdomain
 
-**Returns**: <code>String</code> - Translation or the original string if no translation was found
+**Returns**: <code>String</code> - Translation or the original string if no translation was found  
 **Params**
 
 - `domain`: <code>String</code> - A gettext domain name
@@ -296,7 +296,7 @@ Translates a plural string from a specifi context using a specific textdomain
 - `msgidPlural`: <code>String</code> - If no translation was found, return this on count!=1
 - `count`: <code>Number</code> - Number count for the plural
 
-**Example**
+**Example**  
 ```js
 gt.dnpgettext('domainname', 'sports', 'Back', '%d backs', numberOfBacks)
 ```
@@ -306,14 +306,14 @@ gt.dnpgettext('domainname', 'sports', 'Back', '%d backs', numberOfBacks)
 Retrieves comments object for a translation. The comments object
 has the shape `{ translator, extracted, reference, flag, previous }`.
 
-**Returns**: <code>Object</code> - Comments object or false if not found
+**Returns**: <code>Object</code> - Comments object or false if not found  
 **Params**
 
 - `domain`: <code>String</code> - A gettext domain name
 - `msgctxt`: <code>String</code> - Translation context
 - `msgid`: <code>String</code> - String to be translated
 
-**Example**
+**Example**  
 ```js
 const comment = gt.getComment('domainname', 'sports', 'Backs')
 ```
@@ -336,12 +336,12 @@ This function will be removed in the final 2.0.0 release.
 ### Gettext.getLanguageCode(locale) ⇒ <code>String</code>
 Returns the language code part of a locale
 
-**Returns**: <code>String</code> - A language code
+**Returns**: <code>String</code> - A language code  
 **Params**
 
 - `locale`: <code>String</code> - A case-insensitive locale string
 
-**Example**
+**Example**  
 ```js
 Gettext.getLanguageCode('sv-SE')
     // -> "sv"
