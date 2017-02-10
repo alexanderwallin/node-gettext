@@ -195,5 +195,33 @@ describe('Gettext', function() {
             gt.emit('error', 'Something went wrong');
             expect(errorListener.callCount).to.equal(0);
         });
+
+        it('should emit an error event when a locale that has no translations is set', function() {
+            gt.setLocale('et-EE');
+            expect(errorListener.callCount).to.equal(1);
+        });
+
+        it('should emit an error event when no locale has been set', function() {
+            gt.addTranslations('et-EE', 'messages', jsonFile);
+            gt.gettext('o2-1');
+            expect(errorListener.callCount).to.equal(1);
+            gt.setLocale('et-EE');
+            gt.gettext('o2-1');
+            expect(errorListener.callCount).to.equal(1);
+        });
+
+        it('should emit an error event when a translation is missing', function() {
+            gt.addTranslations('et-EE', 'messages', jsonFile);
+            gt.setLocale('et-EE');
+            gt.gettext('This message is not translated');
+            expect(errorListener.callCount).to.equal(1);
+        });
+
+        it('should not emit any error events when a translation is found', function() {
+            gt.addTranslations('et-EE', 'messages', jsonFile);
+            gt.setLocale('et-EE');
+            gt.gettext('o2-1');
+            expect(errorListener.callCount).to.equal(0);
+        });
     });
 });
