@@ -1,6 +1,6 @@
 {
   "name": "node-gettext",
-  "description": "Gettext client for Node.js to use .mo files for I18N",
+  "description": "A JavaScript implementation of gettext, a localization framework",
   "version": "1.1.0",
   "author": "Andris Reinman",
   "maintainers": [
@@ -48,7 +48,9 @@
   "keywords": [
     "i18n",
     "l10n",
-    "gettext",
-    "mo"
+    "internationalization",
+    "localization",
+    "translation",
+    "gettext"
   ]
 }
