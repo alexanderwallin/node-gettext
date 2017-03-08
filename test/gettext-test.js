@@ -42,35 +42,62 @@ describe('Gettext', function() {
     });
 
     describe('#setLocale', function() {
-        it('should have no default locale', function() {
-            expect(gt.locale).to.equal(null);
+        it('should have the empty string as default locale', function() {
+            expect(gt.locale).to.equal('');
         });
 
-        it ('should not accept a locale that has no translations', function() {
+        it('should accept whatever string is passed as locale', function() {
             gt.setLocale('de-AT');
-            expect(gt.locale).to.equal(null);
+            expect(gt.locale).to.equal('de-AT');
+            gt.setLocale('01234');
+            expect(gt.locale).to.equal('01234');
+            gt.setLocale('');
+            expect(gt.locale).to.equal('');
         });
 
-        it('should change locale if translations exist', function() {
-            gt.addTranslations('et-EE', 'messages', jsonFile);
-            gt.setLocale('et-EE');
-            expect(gt.locale).to.equal('et-EE');
+        it('should reject non-string locales', function() {
+            gt.setLocale(null);
+            expect(gt.locale).to.equal('');
+            gt.setLocale(123);
+            expect(gt.locale).to.equal('');
+            gt.setLocale(false);
+            expect(gt.locale).to.equal('');
+            gt.setLocale(function() {});
+            expect(gt.locale).to.equal('');
+            gt.setLocale(NaN);
+            expect(gt.locale).to.equal('');
+            gt.setLocale();
+            expect(gt.locale).to.equal('');
         });
     });
 
     describe('#setTextDomain', function() {
-        it('defaults to "messages"', function() {
+        it('should default to "messages"', function() {
             expect(gt.domain).to.equal('messages');
         });
 
-        it('does not accept an empty value', function() {
-            gt.setTextDomain('');
-            expect(gt.domain).to.equal('messages');
-        });
-
-        it('accepts and stores a non-empty domain name', function() {
+        it('should accept and store any string as domain name', function() {
             gt.setTextDomain('mydomain');
             expect(gt.domain).to.equal('mydomain');
+            gt.setTextDomain('01234');
+            expect(gt.domain).to.equal('01234');
+            gt.setTextDomain('');
+            expect(gt.domain).to.equal('');
+        });
+
+        it('should reject non-string domains', function() {
+            gt.setTextDomain(null);
+            expect(gt.domain).to.equal('messages');
+            gt.setTextDomain(123);
+            expect(gt.domain).to.equal('messages');
+            gt.setTextDomain(false);
+            expect(gt.domain).to.equal('messages');
+            gt.setTextDomain(function() {});
+            expect(gt.domain).to.equal('messages');
+            gt.setTextDomain(NaN);
+            expect(gt.domain).to.equal('messages');
+            gt.setTextDomain();
+            expect(gt.domain).to.equal('messages');
         });
     });
 
@@ -162,10 +189,13 @@ describe('Gettext', function() {
             gt.addTranslations('et-EE', 'messages', jsonFile);
         });
 
-        it('should pass msgid until a locale is set', function() {
-            expect(gt.gettext('o2-1')).to.equal('o2-1');
-            gt.setLocale('et-EE');
-            expect(gt.gettext('o2-1')).to.equal('t2-1');
+        it('should pass msgid when no translation is found', function() {
+            expect(gt.gettext('unknown phrase')).to.equal('unknown phrase');
+            expect(gt.dnpgettext('unknown domain', null, 'hello')).to.equal('hello');
+            expect(gt.dnpgettext('messages', 'unknown context', 'hello')).to.equal('hello');
+
+            // 'o2-1' is translated, but no locale has been set yet
+            expect(gt.dnpgettext('messages', '', 'o2-1')).to.equal('o2-1');
         });
 
         it('should pass unresolved singular message when count is 1', function() {
