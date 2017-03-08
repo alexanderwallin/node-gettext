@@ -90,13 +90,13 @@ Here is a full list of all breaking changes:
 ## Gettext
 <a name="new_Gettext_new"></a>
 
-### new Gettext(options)
+### new Gettext([options])
 Creates and returns a new Gettext instance.
 
 **Returns**: <code>Object</code> - A Gettext instance  
 **Params**
 
-- `options`: <code>Object</code> - A set of options
+- `[options]`: <code>Object</code> - A set of options
     - `.debug`: <code>Boolean</code> - Whether to output debug info into the
                                  console.
 
