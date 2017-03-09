@@ -254,4 +254,20 @@ describe('Gettext', function() {
             expect(errorListener.callCount).to.equal(0);
         });
     });
+
+    describe('Aliases', function() {
+        it('should forward textdomain(domain) to setTextDomain(domain)', function() {
+            sinon.stub(gt, 'setTextDomain');
+            gt.textdomain('messages');
+            expect(gt.setTextDomain.calledWith('messages'));
+            gt.setTextDomain.restore();
+        });
+
+        it('should forward setlocale(locale) to setLocale(locale)', function() {
+            sinon.stub(gt, 'setLocale');
+            gt.setLocale('et-EE');
+            expect(gt.setLocale.calledWith('et-EE'));
+            gt.setLocale.restore();
+        });
+    });
 });

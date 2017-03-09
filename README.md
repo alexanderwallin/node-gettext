@@ -88,6 +88,26 @@ Here is a full list of all breaking changes:
 <a name="Gettext"></a>
 
 ## Gettext
+
+* [Gettext](#Gettext)
+    * [new Gettext([options])](#new_Gettext_new)
+    * [.on(eventName, callback)](#Gettext+on)
+    * [.off(eventName, callback)](#Gettext+off)
+    * [.addTranslations(locale, domain, translations)](#Gettext+addTranslations)
+    * [.setLocale(locale)](#Gettext+setLocale)
+    * [.setTextDomain(domain)](#Gettext+setTextDomain)
+    * [.gettext(msgid)](#Gettext+gettext) ⇒ <code>String</code>
+    * [.dgettext(domain, msgid)](#Gettext+dgettext) ⇒ <code>String</code>
+    * [.ngettext(msgid, msgidPlural, count)](#Gettext+ngettext) ⇒ <code>String</code>
+    * [.dngettext(domain, msgid, msgidPlural, count)](#Gettext+dngettext) ⇒ <code>String</code>
+    * [.pgettext(msgctxt, msgid)](#Gettext+pgettext) ⇒ <code>String</code>
+    * [.dpgettext(domain, msgctxt, msgid)](#Gettext+dpgettext) ⇒ <code>String</code>
+    * [.npgettext(msgctxt, msgid, msgidPlural, count)](#Gettext+npgettext) ⇒ <code>String</code>
+    * [.dnpgettext(domain, msgctxt, msgid, msgidPlural, count)](#Gettext+dnpgettext) ⇒ <code>String</code>
+    * [.textdomain()](#Gettext+textdomain)
+    * [.setlocale()](#Gettext+setlocale)
+    * ~~[.addTextdomain()](#Gettext+addTextdomain)~~
+
 <a name="new_Gettext_new"></a>
 
 ### new Gettext([options])
@@ -119,16 +139,6 @@ Removes an event listener.
 
 - `eventName`: <code>String</code> - An event name
 - `callback`: <code>function</code> - A previously registered event handler function
-
-<a name="Gettext+emit"></a>
-
-### gettext.emit(eventName, eventData)
-Emits an event to all registered event listener.
-
-**Params**
-
-- `eventName`: <code>String</code> - An event name
-- `eventData`: <code>any</code> - Data to pass to event listeners
 
 <a name="Gettext+addTranslations"></a>
 
@@ -300,23 +310,18 @@ Translates a plural string from a specifi context using a specific textdomain
 ```js
 gt.dnpgettext('domainname', 'sports', 'Back', '%d backs', numberOfBacks)
 ```
-<a name="Gettext+getComment"></a>
+<a name="Gettext+textdomain"></a>
 
-### gettext.getComment(domain, msgctxt, msgid) ⇒ <code>Object</code>
-Retrieves comments object for a translation. The comments object
-has the shape `{ translator, extracted, reference, flag, previous }`.
+### gettext.textdomain()
+C-style alias for [setTextDomain](#gettextsettextdomaindomain)
 
-**Returns**: <code>Object</code> - Comments object or false if not found  
-**Params**
+**See**: Gettext#setTextDomain  
+<a name="Gettext+setlocale"></a>
 
-- `domain`: <code>String</code> - A gettext domain name
-- `msgctxt`: <code>String</code> - Translation context
-- `msgid`: <code>String</code> - String to be translated
+### gettext.setlocale()
+C-style alias for [setLocale](#gettextsetlocalelocale)
 
-**Example**  
-```js
-const comment = gt.getComment('domainname', 'sports', 'Backs')
-```
+**See**: Gettext#setLocale  
 <a name="Gettext+addTextdomain"></a>
 
 ### ~~gettext.addTextdomain()~~
@@ -324,28 +329,6 @@ const comment = gt.getComment('domainname', 'sports', 'Backs')
 
 This function will be removed in the final 2.0.0 release.
 
-<a name="Gettext+textdomain"></a>
-
-### ~~gettext.textdomain()~~
-***Deprecated***
-
-This function will be removed in the final 2.0.0 release.
-
-<a name="Gettext.getLanguageCode"></a>
-
-### Gettext.getLanguageCode(locale) ⇒ <code>String</code>
-Returns the language code part of a locale
-
-**Returns**: <code>String</code> - A language code  
-**Params**
-
-- `locale`: <code>String</code> - A case-insensitive locale string
-
-**Example**  
-```js
-Gettext.getLanguageCode('sv-SE')
-    // -> "sv"
-```
 
 
 ## License
