@@ -20,8 +20,8 @@ If you just want to parse or compile mo/po files, check out [gettext-parser](htt
   * [Differences from GNU gettext](#differences-from-gnu-gettext)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Migrating from v1 to v2](#migrating-from-v1-to-v2)
 * [API](#api)
+* [Migrating from v1 to v2](#migrating-from-v1-to-v2)
 * [License](#license)
 * [See also](#see-also)
 
@@ -80,6 +80,11 @@ gt.gettext('An unrecognized message')
 ```
 
 
+## API
+
+{{>main}}
+
+
 ## Migrating from v1 to v2
 
 Version 1 of `node-gettext` confused domains with locales, which version 2 has corrected. `node-gettext` also no longer parses files or file paths for you, but accepts only ready-parsed JSON translation objects.
@@ -94,11 +99,6 @@ Here is a full list of all breaking changes:
 * `_currentDomain` is now `domain`
 * `domains` is now `catalogs`
 * The instance method `__normalizeDomain(domain)` has been replaced by a static method `Gettext.getLanguageCode(locale)`
-
-
-## API
-
-{{>main}}
 
 
 ## License
