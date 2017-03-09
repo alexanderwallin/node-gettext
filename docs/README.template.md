@@ -10,13 +10,14 @@
 [![Build Status](https://travis-ci.org/alexanderwallin/node-gettext.svg?branch=master)](http://travis-ci.org/alexanderwallin/node-gettext)
 [![npm version](https://badge.fury.io/js/node-gettext.svg)](https://badge.fury.io/js/node-gettext)
 
-**`node-gettext`** is a JavaScript implementation of [gettext](https://www.gnu.org/software/gettext/gettext.html), a localization framework.
+**`node-gettext`** is a JavaScript implementation of (a large subset of) [gettext](https://www.gnu.org/software/gettext/gettext.html), a localization framework originally written in C.
 
 If you just want to parse or compile mo/po files, check out [gettext-parser](https://github.com/smhg/gettext-parser).
 
 **NOTE:** This is the README for v2 of node-gettext, which introduces many braking changes and is currently in alpha. You can find the [README for v1 here](https://github.com/alexanderwallin/node-gettext/blob/master/docs/v1/README.md).
 
 * [Features](#features)
+  * [Differences from GNU gettext](#differences-from-gnu-gettext)
 * [Installation](#installation)
 * [Usage](#usage)
 * [Migrating from v1 to v2](#migrating-from-v1-to-v2)
@@ -33,6 +34,18 @@ If you just want to parse or compile mo/po files, check out [gettext-parser](htt
 * Change locale or domain on the fly
 * Useful error messages enabled by a `debug` option
 * Emits events for internal errors, such as missing translations
+
+
+### Differences from GNU gettext
+
+There are two main differences between `node-gettext` and GNU's gettext:
+
+1. **There are no categories.** GNU gettext features [categories such as `LC_MESSAGES`, `LC_NUMERIC` and `LC_MONETARY`](https://www.gnu.org/software/gettext/manual/gettext.html#Locale-Environment-Variables), but since there already is a plethora of great JavaScript libraries to deal with numbers, currencies, dates etc, `node-gettext` is simply targeted towards strings/phrases. You could say it just assumes the `LC_MESSAGES` category at all times.
+2. **You have to read translation files from the file system yourself.** GNU gettext is a C library that reads files from the file system. This is done using `bindtextdomain(domain, localesDirPath)` and `setlocale(category, locale)`, where these four parameters combined are used to read the appropriate translations file.
+
+  However, since `node-gettext` needs to work both on the server in web browsers (which usually is referred to as it being *universal* or *isomorphic* JavaScript), it is up to the developer to read translation files from disk or somehow provide it with translations as pure JavaScript objects using [`addTranslations(locale, domain, translations)`](#gettextsetlocalelocale).
+
+  `bindtextdomain` will be provided as an optional feature in a future release.
 
 
 ## Installation
