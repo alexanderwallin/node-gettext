@@ -20,6 +20,8 @@ If you just want to parse or compile mo/po files, check out [gettext-parser](htt
   * [Differences from GNU gettext](#differences-from-gnu-gettext)
 * [Installation](#installation)
 * [Usage](#usage)
+  * [Error events](#error-events)
+  * [Recipes](#recipes)
 * [API](#api)
 * [Migrating from v1 to v2](#migrating-from-v1-to-v2)
 * [License](#license)
@@ -77,6 +79,38 @@ gt.gettext('The world is a funny place')
 gt.on('error', error => console.log('oh nose', error))
 gt.gettext('An unrecognized message')
 // -> 'oh nose', 'An unrecognized message'
+```
+
+### Recipes
+
+#### Load and add translations from .mo or .po files
+
+`node-gettext` expects all translations to be in the format specified by [`gettext-parser`](https://github.com/smhg/gettext-parser). Therefor, you should use that to parse .mo or .po files.
+
+Here is an example where we read a bunch of translation files from disk and add them to our `Gettext` instance:
+
+```js
+import fs from 'fs'
+import path from 'path'
+import Gettext from 'node-gettext'
+import { po } from 'gettext-parser'
+
+// In this example, our translations are found at
+// path/to/locales/LOCALE/DOMAIN.po
+const translationsDir = 'path/to/locales'
+const locales = ['en', 'fi-FI', 'sv-SE']
+const domain = 'messages'
+
+const gt = new Gettext()
+
+locales.forEach((locale) => {
+    const fileName = `${domain}.po`
+    const translationsFilePath = path.join(translationsDir, locale, filename)
+    const translationsContent = fs.readSync(translationsFilePath)
+
+    const parsedTranslations = po.parse(translationsContent)
+    gt.addTranslations(locale, domain, parsedTranslations)
+})
 ```
 
 
