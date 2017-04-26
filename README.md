@@ -1,6 +1,6 @@
 
 <p align="center">
- <img src="docs/node-gettext-logo.png" width="160" height="160" />
+ <img src="https://raw.githubusercontent.com/alexanderwallin/node-gettext/master/docs/node-gettext-logo.png" width="160" height="160" />
 </p>
 
 <h1 align="center">
