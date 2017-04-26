@@ -12,9 +12,9 @@
 
 **`node-gettext`** is a JavaScript implementation of (a large subset of) [gettext](https://www.gnu.org/software/gettext/gettext.html), a localization framework originally written in C.
 
-If you just want to parse or compile mo/po files, check out [gettext-parser](https://github.com/smhg/gettext-parser).
+If you just want to parse or compile mo/po files, for use with this library or elsewhere, check out [gettext-parser](https://github.com/smhg/gettext-parser).
 
-**NOTE:** This is the README for v2 of node-gettext, which introduces many braking changes and is currently in alpha. You can find the [README for v1 here](https://github.com/alexanderwallin/node-gettext/blob/master/docs/v1/README.md).
+**NOTE:** This is the README for v2 of node-gettext, which introduces several braking changes. You can find the [README for v1 here](https://github.com/alexanderwallin/node-gettext/blob/master/docs/v1/README.md).
 
 * [Features](#features)
   * [Differences from GNU gettext](#differences-from-gnu-gettext)
@@ -81,7 +81,7 @@ gt.gettext('An unrecognized message')
 // -> 'oh nose', 'An unrecognized message'
 ```
 
-### Recipes
+### Recipes
 
 #### Load and add translations from .mo or .po files
 
