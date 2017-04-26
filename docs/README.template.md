@@ -119,7 +119,7 @@ locales.forEach((locale) => {
 {{>main}}
 
 
-## Migrating from v1 to v2
+## Migrating from v1 to v2
 
 Version 1 of `node-gettext` confused domains with locales, which version 2 has corrected. `node-gettext` also no longer parses files or file paths for you, but accepts only ready-parsed JSON translation objects.
 
