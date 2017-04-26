@@ -386,5 +386,6 @@ MIT
 ## See also
 
 * [gettext-parser](https://github.com/smhg/gettext-parser) - Parsing and compiling gettext translations between .po/.mo files and JSON
+* [lioness](https://github.com/alexanderwallin/lioness) – Gettext library for React
 * [react-gettext-parser](https://github.com/lagetse/react-gettext-parser) - Extracting gettext translatable strings from JS(X) code
 * [narp](https://github.com/lagetse/narp) - Workflow CLI tool that syncs translations between your app and Transifex
