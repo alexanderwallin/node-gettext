@@ -17,6 +17,40 @@ describe('Gettext', function() {
         jsonFile = JSON.parse(fs.readFileSync(__dirname + '/fixtures/latin13.json'));
     });
 
+    describe('#constructor', function() {
+        var gtc;
+
+        beforeEach(function() {
+            gtc = null;
+        });
+
+        describe('#defaultLocale option', function() {
+            it('should accept any string as a locale', function() {
+                gtc = new Gettext({ defaultLocale: 'en-US' });
+                expect(gtc.defaultLocale).to.equal('en-US');
+                gtc = new Gettext({ defaultLocale: '01234' });
+                expect(gtc.defaultLocale).to.equal('01234');
+            });
+
+            it('should default to en empty string', function() {
+                expect((new Gettext()).defaultLocale).to.equal('');
+            });
+
+            it('should reject non-string values', function() {
+                gtc = new Gettext({ defaultLocale: null });
+                expect(gtc.defaultLocale).to.equal('');
+                gtc = new Gettext({ defaultLocale: 123 });
+                expect(gtc.defaultLocale).to.equal('');
+                gtc = new Gettext({ defaultLocale: false });
+                expect(gtc.defaultLocale).to.equal('');
+                gtc = new Gettext({ defaultLocale: {} });
+                expect(gtc.defaultLocale).to.equal('');
+                gtc = new Gettext({ defaultLocale: function() {} });
+                expect(gtc.defaultLocale).to.equal('');
+            });
+        });
+    });
+
     describe('#getLanguageCode', function() {
         it('should normalize locale string', function() {
             expect(Gettext.getLanguageCode('ab-cd_ef.utf-8')).to.equal('ab');
@@ -252,6 +286,15 @@ describe('Gettext', function() {
             gt.setLocale('et-EE');
             gt.gettext('o2-1');
             expect(errorListener.callCount).to.equal(0);
+        });
+
+        it('should not emit any error events when the current locale is the default locale', function() {
+            var gtd = new Gettext({ defaultLocale: 'en-US' });
+            var errorListenerDefaultLocale = sinon.spy();
+            gtd.on('error', errorListenerDefaultLocale);
+            gtd.setLocale('en-US');
+            gtd.gettext('This message is not translated');
+            expect(errorListenerDefaultLocale.callCount).to.equal(0);
         });
     });
 
