@@ -106,7 +106,7 @@ const gt = new Gettext()
 locales.forEach((locale) => {
     const fileName = `${domain}.po`
     const translationsFilePath = path.join(translationsDir, locale, fileName)
-    const translationsContent = fs.readSync(translationsFilePath)
+    const translationsContent = fs.readFileSync(translationsFilePath)
 
     const parsedTranslations = po.parse(translationsContent)
     gt.addTranslations(locale, domain, parsedTranslations)
