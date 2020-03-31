@@ -144,14 +144,13 @@ locales.forEach((locale) => {
 ### new Gettext([options])
 Creates and returns a new Gettext instance.
 
-**Returns**: <code>Object</code> - A Gettext instance  
+**Returns**: <code>Object</code> - A Gettext instance
 **Params**
 
 - `[options]`: <code>Object</code> - A set of options
+    - `.sourceLocale`: <code>String</code> - The locale that the source code and its texts are written in. Translations for this locale is not necessary.
     - `.debug`: <code>Boolean</code> - Whether to output debug info into the
                                  console.
-    - `.defaultLocale`: <code>String</code> - Locale for the default messages
-                                         defined in the source code.
 
 <a name="Gettext+on"></a>
 

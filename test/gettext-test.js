@@ -24,29 +24,29 @@ describe('Gettext', function() {
             gtc = null;
         });
 
-        describe('#defaultLocale option', function() {
+        describe('#sourceLocale option', function() {
             it('should accept any string as a locale', function() {
-                gtc = new Gettext({ defaultLocale: 'en-US' });
-                expect(gtc.defaultLocale).to.equal('en-US');
-                gtc = new Gettext({ defaultLocale: '01234' });
-                expect(gtc.defaultLocale).to.equal('01234');
+                gtc = new Gettext({ sourceLocale: 'en-US' });
+                expect(gtc.sourceLocale).to.equal('en-US');
+                gtc = new Gettext({ sourceLocale: '01234' });
+                expect(gtc.sourceLocale).to.equal('01234');
             });
 
             it('should default to en empty string', function() {
-                expect((new Gettext()).defaultLocale).to.equal('');
+                expect((new Gettext()).sourceLocale).to.equal('');
             });
 
             it('should reject non-string values', function() {
-                gtc = new Gettext({ defaultLocale: null });
-                expect(gtc.defaultLocale).to.equal('');
-                gtc = new Gettext({ defaultLocale: 123 });
-                expect(gtc.defaultLocale).to.equal('');
-                gtc = new Gettext({ defaultLocale: false });
-                expect(gtc.defaultLocale).to.equal('');
-                gtc = new Gettext({ defaultLocale: {} });
-                expect(gtc.defaultLocale).to.equal('');
-                gtc = new Gettext({ defaultLocale: function() {} });
-                expect(gtc.defaultLocale).to.equal('');
+                gtc = new Gettext({ sourceLocale: null });
+                expect(gtc.sourceLocale).to.equal('');
+                gtc = new Gettext({ sourceLocale: 123 });
+                expect(gtc.sourceLocale).to.equal('');
+                gtc = new Gettext({ sourceLocale: false });
+                expect(gtc.sourceLocale).to.equal('');
+                gtc = new Gettext({ sourceLocale: {} });
+                expect(gtc.sourceLocale).to.equal('');
+                gtc = new Gettext({ sourceLocale: function() {} });
+                expect(gtc.sourceLocale).to.equal('');
             });
         });
     });
@@ -289,12 +289,12 @@ describe('Gettext', function() {
         });
 
         it('should not emit any error events when the current locale is the default locale', function() {
-            var gtd = new Gettext({ defaultLocale: 'en-US' });
-            var errorListenerDefaultLocale = sinon.spy();
-            gtd.on('error', errorListenerDefaultLocale);
+            var gtd = new Gettext({ sourceLocale: 'en-US' });
+            var errorListenersourceLocale = sinon.spy();
+            gtd.on('error', errorListenersourceLocale);
             gtd.setLocale('en-US');
             gtd.gettext('This message is not translated');
-            expect(errorListenerDefaultLocale.callCount).to.equal(0);
+            expect(errorListenersourceLocale.callCount).to.equal(0);
         });
     });
 
