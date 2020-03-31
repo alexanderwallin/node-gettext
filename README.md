@@ -150,6 +150,8 @@ Creates and returns a new Gettext instance.
 - `[options]`: <code>Object</code> - A set of options
     - `.debug`: <code>Boolean</code> - Whether to output debug info into the
                                  console.
+    - `.defaultLocale`: <code>String</code> - Locale for the default messages
+                                         defined in the source code.
 
 <a name="Gettext+on"></a>
 
