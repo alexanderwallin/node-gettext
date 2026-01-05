@@ -105,8 +105,8 @@ const gt = new Gettext()
 
 locales.forEach((locale) => {
     const fileName = `${domain}.po`
-    const translationsFilePath = path.join(translationsDir, locale, fileName)
-    const translationsContent = fs.readFileSync(translationsFilePath)
+    const translationsFilePath = path.join(translationsDir, locale, filename)
+    const translationsContent = fs.readSync(translationsFilePath)
 
     const parsedTranslations = po.parse(translationsContent)
     gt.addTranslations(locale, domain, parsedTranslations)
@@ -144,13 +144,15 @@ locales.forEach((locale) => {
 ### new Gettext([options])
 Creates and returns a new Gettext instance.
 
-**Returns**: <code>Object</code> - A Gettext instance
+**Returns**: <code>Object</code> - A Gettext instance  
 **Params**
 
 - `[options]`: <code>Object</code> - A set of options
-    - `.sourceLocale`: <code>String</code> - The locale that the source code and its texts are written in. Translations for this locale is not necessary.
+    - `.sourceLocale`: <code>String</code> - The locale that the source code and its
+                                        texts are written in. Translations for
+                                        this locale is not necessary.
     - `.debug`: <code>Boolean</code> - Whether to output debug info into the
-                                 console.
+                                        console.
 
 <a name="Gettext+on"></a>
 
@@ -388,5 +390,5 @@ MIT
 
 * [gettext-parser](https://github.com/smhg/gettext-parser) - Parsing and compiling gettext translations between .po/.mo files and JSON
 * [lioness](https://github.com/alexanderwallin/lioness) – Gettext library for React
-* [react-gettext-parser](https://github.com/laget-se/react-gettext-parser) - Extracting gettext translatable strings from JS(X) code
-* [narp](https://github.com/laget-se/narp) - Workflow CLI tool that syncs translations between your app and Transifex
+* [react-gettext-parser](https://github.com/lagetse/react-gettext-parser) - Extracting gettext translatable strings from JS(X) code
+* [narp](https://github.com/lagetse/narp) - Workflow CLI tool that syncs translations between your app and Transifex
