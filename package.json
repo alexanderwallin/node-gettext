@@ -1,7 +1,7 @@
 {
   "name": "node-gettext",
   "description": "A JavaScript implementation of gettext, a localization framework",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "author": "Andris Reinman",
   "maintainers": [
     {
